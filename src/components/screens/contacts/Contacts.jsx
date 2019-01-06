@@ -8,7 +8,14 @@ export default function Contacts({ contacts = [] }) {
   return (
     <div className="Contacts">
       <div className="Contacts-listColumn">
-        <h1>Contact List</h1>
+        <span className="Contacts-titleRow">
+          <h1>Contact List</h1>
+          <span className="Contacts-newContactBtn">+</span>
+        </span>
+        <span className="Contacts-titleRow">
+          <span>filter btn</span>
+          <input type="text" placeholder="Search..." />
+        </span>
         {contacts &&
           contacts.map((c, i) => <ContactListItem key={i} contact={c} />)}
       </div>
