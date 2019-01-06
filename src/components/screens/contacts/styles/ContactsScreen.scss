@@ -48,13 +48,20 @@
 }
 
 .ContactList {
-  background: #f2f2f2;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-  border-radius: 13px;
-  width: 90% !important;
-  padding: 10px;
-  margin: auto;
+  overflow-y: auto;
+  height: 100%;
   margin-top: 10px;
+
+  .ContactList-background {
+    background: #f2f2f2;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 13px;
+    width: 90% !important;
+    padding: 10px;
+    margin: auto;
+    margin-bottom: 100px;
+  }
+
   .active {
     border: 2px solid #2f80ed;
   }

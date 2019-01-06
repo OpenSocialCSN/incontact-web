@@ -18,7 +18,6 @@ body {
     top: 0;
     right: 0;
     bottom: 0;
-    overflow: hidden;
     left: $sideMenuWidth;
   }
 }
@@ -95,3 +94,22 @@ body {
     right: 18px;
   }
 }
+
+/* SCROLLBAR */
+::-webkit-scrollbar {
+  width: 10px;
+}
+/* Track */
+::-webkit-scrollbar-track {
+  background: hidden;
+}
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #bac1c6;
+  border-radius: 10px;
+}
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: darken(#bac1c6, 15%);
+}
+/* END SCROLLBAR */

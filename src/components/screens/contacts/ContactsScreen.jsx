@@ -18,7 +18,7 @@ export default function ContactsScreen({ contacts = [] }) {
         </span>
         <span className="Contacts-titleRow">
           <span>filter btn</span>
-          <input type="text" placeholder="Search..." />
+          <input type="text" placeholder="Search... TODO" />
         </span>
         <ContactList
           contacts={contacts}
@@ -45,15 +45,17 @@ const ContactList = ({ contacts, selectContact, selectedContactId }) => {
 
   return (
     <div className="ContactList">
-      {sortedContacts &&
-        sortedContacts.map((c, i) => (
-          <ContactListItem
-            key={i}
-            contact={c}
-            selectContact={selectContact}
-            isActive={selectedContactId === c.id}
-          />
-        ))}
+      <div className="ContactList-background">
+        {sortedContacts &&
+          sortedContacts.map((c, i) => (
+            <ContactListItem
+              key={i}
+              contact={c}
+              selectContact={selectContact}
+              isActive={selectedContactId === c.id}
+            />
+          ))}
+      </div>
     </div>
   );
 };
