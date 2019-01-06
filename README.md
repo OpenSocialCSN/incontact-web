@@ -1,3 +1,9 @@
+# Incontact.me
+
+Web app for incontact.me, an app for managing contacts and receiving notifications across messaging, email, and social media platforms.
+
+# Getting Started
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
