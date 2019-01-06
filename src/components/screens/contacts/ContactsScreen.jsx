@@ -1,9 +1,12 @@
 import React, { useState } from "react";
 
 import "./styles/ContactsScreen.scss";
+import { Avatar } from "../../reusable";
 
 export default function ContactsScreen({ contacts = [] }) {
-  const [selectedContact, selectContact] = useState(null);
+  const [selectedContact, selectContact] = useState(
+    contacts ? contacts[0] : null
+  );
   const selectedContactId = selectedContact && selectedContact.id;
 
   return (
@@ -30,15 +33,17 @@ export default function ContactsScreen({ contacts = [] }) {
 
 const ContactList = ({ contacts, selectContact, selectedContactId }) => {
   return (
-    contacts &&
-    contacts.map((c, i) => (
-      <ContactListItem
-        key={i}
-        contact={c}
-        selectContact={selectContact}
-        isActive={selectedContactId === c.id}
-      />
-    ))
+    <div className="ContactList">
+      {contacts &&
+        contacts.map((c, i) => (
+          <ContactListItem
+            key={i}
+            contact={c}
+            selectContact={selectContact}
+            isActive={selectedContactId === c.id}
+          />
+        ))}
+    </div>
   );
 };
 
@@ -47,6 +52,7 @@ const ContactListItem = ({ contact, selectContact, isActive }) => (
     className={`ContactListItem${isActive ? " active" : ""}`}
     onClick={() => selectContact(contact)}
   >
+    <Avatar user={contact} />
     {contact.displayName}
   </div>
 );
