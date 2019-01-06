@@ -8,10 +8,6 @@
   }
 }
 
-.ContactListItem {
-  border: 1px solid blue;
-}
-
 .Contacts-listColumn {
   h1 {
     font-style: normal;
@@ -49,4 +45,10 @@
 }
 .Contacts-contactInfoColumn {
   background-color: #bac1c6;
+}
+
+.ContactListItem {
+}
+.active {
+  border: 1px solid blue;
 }

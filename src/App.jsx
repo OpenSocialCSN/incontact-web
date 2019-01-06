@@ -6,7 +6,8 @@ import SideMenu from "./SideMenu";
 const FAKE_CONTACTS = [];
 for (let i = 0; i < 40; i++) {
   FAKE_CONTACTS.push({
-    displayName: "Andrew Jones"
+    displayName: "Andrew Jones",
+    id: i
   });
 }
 

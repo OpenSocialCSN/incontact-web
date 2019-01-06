@@ -4,6 +4,7 @@ import "./styles/ContactsScreen.scss";
 
 export default function ContactsScreen({ contacts = [] }) {
   const [selectedContact, selectContact] = useState(null);
+  const selectedContactId = selectedContact && selectedContact.id;
 
   return (
     <div className="ContactsScreen">
@@ -16,14 +17,36 @@ export default function ContactsScreen({ contacts = [] }) {
           <span>filter btn</span>
           <input type="text" placeholder="Search..." />
         </span>
-        {contacts &&
-          contacts.map((c, i) => <ContactListItem key={i} contact={c} />)}
+        <ContactList
+          contacts={contacts}
+          selectContact={selectContact}
+          selectedContactId={selectedContactId}
+        />
       </div>
       <div className="Contacts-contactInfoColumn">contact info</div>
     </div>
   );
 }
 
-const ContactListItem = ({ contact, selectContact, is }) => (
-  <div className="ContactListItem">{contact.displayName}</div>
+const ContactList = ({ contacts, selectContact, selectedContactId }) => {
+  return (
+    contacts &&
+    contacts.map((c, i) => (
+      <ContactListItem
+        key={i}
+        contact={c}
+        selectContact={selectContact}
+        isActive={selectedContactId === c.id}
+      />
+    ))
+  );
+};
+
+const ContactListItem = ({ contact, selectContact, isActive }) => (
+  <div
+    className={`ContactListItem${isActive ? " active" : ""}`}
+    onClick={() => selectContact(contact)}
+  >
+    {contact.displayName}
+  </div>
 );
