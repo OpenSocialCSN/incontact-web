@@ -32,10 +32,21 @@ export default function ContactsScreen({ contacts = [] }) {
 }
 
 const ContactList = ({ contacts, selectContact, selectedContactId }) => {
+  const sortedContacts = contacts.slice(0).sort((a, b) => {
+    if (a.lastName < b.lastName) {
+      return -1;
+    } else if (a.lastName === b.lastName) {
+      return a.firstName < b.firstName ? -1 : 1;
+    } else if (a.lastName > b.lastName) {
+      return 1;
+    }
+    return 0;
+  });
+
   return (
     <div className="ContactList">
-      {contacts &&
-        contacts.map((c, i) => (
+      {sortedContacts &&
+        sortedContacts.map((c, i) => (
           <ContactListItem
             key={i}
             contact={c}
