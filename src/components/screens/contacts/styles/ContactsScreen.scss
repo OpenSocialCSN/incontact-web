@@ -55,6 +55,9 @@
   padding: 10px;
   margin: auto;
   margin-top: 10px;
+  .active {
+    border: 2px solid #2f80ed;
+  }
 }
 
 .ContactListItem {
@@ -89,7 +92,4 @@
   &:hover {
     border: 2px solid lighten(#2f80ed, 20%);
   }
-}
-.active {
-  border: 2px solid #2f80ed;
 }
