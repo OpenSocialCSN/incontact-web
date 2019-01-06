@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import logo from "./assets/images/logo-square180.png";
 
 import SideMenu from "./SideMenu";
 
@@ -8,8 +7,8 @@ export default function App() {
 
   return (
     <div className="App">
-      <SideMenu navigate={navigate} />
-      <div className="AppContent">
+      <SideMenu navigate={navigate} route={route} />
+      <div className="App-content">
         {route === "Contacts" && <h1>CONTACTS SCREEN</h1>}
         {route === "Notifications" && <h1>NOTIFICATIONS SCREEN</h1>}
         {route === "History" && <h1>HISTORY SCREEN</h1>}
