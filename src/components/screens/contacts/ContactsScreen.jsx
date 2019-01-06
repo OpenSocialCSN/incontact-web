@@ -52,7 +52,12 @@ const ContactListItem = ({ contact, selectContact, isActive }) => (
     className={`ContactListItem${isActive ? " active" : ""}`}
     onClick={() => selectContact(contact)}
   >
-    <Avatar user={contact} />
-    {contact.displayName}
+    <span className="ContactListItem-iconAndName">
+      <Avatar user={contact} size={51} />
+      <h2>{contact.displayName}</h2>
+    </span>
+    <span>
+      CONTACT <br /> ICONS <br /> HERE
+    </span>
   </div>
 );

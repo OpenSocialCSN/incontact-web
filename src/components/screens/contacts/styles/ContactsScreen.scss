@@ -59,13 +59,33 @@
 
 .ContactListItem {
   background: #ffffff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-left: 8px;
+  padding-right: 8px;
   cursor: pointer;
   height: 96px;
   box-sizing: border-box;
   border-radius: 10px;
-  margin-bottom: 5px;
+  margin-bottom: 8px;
   box-shadow: 3px 4px 4px rgba(0, 0, 0, 0.16);
   border: 2px solid white;
+
+  .ContactListItem-iconAndName {
+    display: flex;
+    align-items: center;
+
+    h2 {
+      // contact's name
+      padding-left: 8px;
+      font-style: normal;
+      font-weight: 300;
+      line-height: normal;
+      font-size: 32px;
+    }
+  }
+
   &:hover {
     border: 2px solid lighten(#2f80ed, 20%);
   }
