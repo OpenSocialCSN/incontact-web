@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 
-import "./styles/Contacts.scss";
+import "./styles/ContactsScreen.scss";
 
-export default function Contacts({ contacts = [] }) {
+export default function ContactsScreen({ contacts = [] }) {
   const [selectedContact, selectContact] = useState(null);
 
   return (
-    <div className="Contacts">
+    <div className="ContactsScreen">
       <div className="Contacts-listColumn">
         <span className="Contacts-titleRow">
           <h1>Contact List</h1>

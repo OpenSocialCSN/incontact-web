@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import Contacts from "./components/screens/contacts/Contacts";
+import ContactsScreen from "./components/screens/contacts/ContactsScreen";
 import SideMenu from "./SideMenu";
 
 const FAKE_CONTACTS = [];
@@ -17,7 +17,7 @@ export default function App() {
     <div className="App">
       <SideMenu navigate={navigate} route={route} />
       <div className="App-content">
-        {route === "Contacts" && <Contacts contacts={FAKE_CONTACTS} />}
+        {route === "Contacts" && <ContactsScreen contacts={FAKE_CONTACTS} />}
         {route === "Notifications" && <h1>NOTIFICATIONS SCREEN</h1>}
         {route === "History" && <h1>HISTORY SCREEN</h1>}
       </div>
