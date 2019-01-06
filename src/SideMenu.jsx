@@ -13,7 +13,7 @@ export default function SideMenu({ navigate, route }) {
     <div className="SideMenu">
       <h1
         onClick={() => {
-          navigate(ROUTES[0]);
+          navigate(ROUTES[0].name);
         }}
       >
         incontact
@@ -33,7 +33,7 @@ export default function SideMenu({ navigate, route }) {
         alt="incontact logo"
         className="SideMenu-logo"
         onClick={() => {
-          navigate(ROUTES[0]);
+          navigate(ROUTES[0].name);
         }}
       />
       <Avatar
