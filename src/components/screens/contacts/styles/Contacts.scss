@@ -1,0 +1,25 @@
+.Contacts {
+  display: flex;
+  justify-content: space-around;
+  div {
+    // columns
+    width: 100%;
+  }
+}
+
+.ContactListItem {
+  border: 1px solid blue;
+}
+
+.Contacts-listColumn {
+  h1 {
+    font-style: normal;
+    font-weight: bold;
+    line-height: normal;
+    font-size: 29px;
+    color: #2f80ed;
+  }
+}
+.Contacts-contactInfoColumn {
+  background-color: #bac1c6;
+}

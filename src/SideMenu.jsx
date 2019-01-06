@@ -22,12 +22,11 @@ export default function SideMenu({ navigate, route }) {
         <SideMenuItem
           key={r.name}
           name={r.name}
-          isFocused={r.name === route}
+          isActive={r.name === route}
           onClick={() => navigate(r.name)}
           Icon={r.icon}
         />
       ))}
-
       <img
         src={logo}
         alt="incontact logo"
@@ -45,11 +44,8 @@ export default function SideMenu({ navigate, route }) {
   );
 }
 
-const SideMenuItem = ({ name, Icon, isFocused, onClick }) => (
-  <div
-    className={`SideMenuItem${isFocused ? " focused" : ""}`}
-    onClick={onClick}
-  >
+const SideMenuItem = ({ name, Icon, isActive, onClick }) => (
+  <div className={`SideMenuItem${isActive ? " active" : ""}`} onClick={onClick}>
     <Icon /> <span className="SideMenuItem-title">{name}</span>
   </div>
 );
