@@ -76,6 +76,9 @@ body {
     &:hover {
       background-color: darken($primary, 20%);
     }
+    .SideMenuItem-title {
+      margin-left: 5px;
+    }
   }
   .focused {
     background-color: darken($primary, 22%);

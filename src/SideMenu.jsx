@@ -1,6 +1,11 @@
 import React from "react";
-import logo from "./assets/images/logo-white.png";
+import {
+  MdHistory,
+  MdNotifications,
+  MdSupervisorAccount
+} from "react-icons/md";
 
+import logo from "./assets/images/logo-white.png";
 import { Avatar } from "./components/reusable";
 
 export default function SideMenu({ navigate, route }) {
@@ -15,10 +20,11 @@ export default function SideMenu({ navigate, route }) {
       </h1>
       {ROUTES.map(r => (
         <SideMenuItem
-          key={r}
-          name={r}
-          isFocused={r === route}
-          onClick={() => navigate(r)}
+          key={r.name}
+          name={r.name}
+          isFocused={r.name === route}
+          onClick={() => navigate(r.name)}
+          Icon={r.icon}
         />
       ))}
 
@@ -39,13 +45,17 @@ export default function SideMenu({ navigate, route }) {
   );
 }
 
-const SideMenuItem = ({ name, icon, isFocused, onClick }) => (
+const SideMenuItem = ({ name, Icon, isFocused, onClick }) => (
   <div
     className={`SideMenuItem${isFocused ? " focused" : ""}`}
     onClick={onClick}
   >
-    icon here {name}
+    <Icon /> <span className="SideMenuItem-title">{name}</span>
   </div>
 );
 
-const ROUTES = ["Contacts", "Notifications", "History"];
+const ROUTES = [
+  { name: "Contacts", icon: MdSupervisorAccount },
+  { name: "Notifications", icon: MdNotifications },
+  { name: "History", icon: MdHistory }
+];
