@@ -1,41 +1,40 @@
 import React from "react";
-import "./styles/Avatar.scss";
 
-export default function Avatar({ user, isLetter, backgroundColor, color }) {
+import "./styles/Avatar.scss";
+import Circle from "./Circle";
+
+export default function Avatar({
+  user,
+  isLetter,
+  backgroundColor = "#2f80ed",
+  color = "white",
+  size = 42
+}) {
   return (
-    <div className="Avatar">
+    <Circle size={size} color={backgroundColor} className="Avatar">
       {isLetter || !user.iconUrl ? (
         <LetterAvatar
           user={user}
           color={color}
           backgroundColor={backgroundColor}
+          size={size}
         />
       ) : (
         <IconAvatar src={user.iconUrl} />
       )}
-    </div>
+    </Circle>
   );
 }
 
 const IconAvatar = ({ src }) => <div />;
 
-const LetterAvatar = ({ user, backgroundColor, color }) => {
+const LetterAvatar = ({ user, color = "white", size }) => {
   const { displayName } = user;
   const letter = displayName ? displayName.charAt(0).toUpperCase() : "?";
 
   return (
-    <div
-      style={{
-        backgroundColor,
-        color,
-        width: "100%",
-        height: "100%",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center"
-      }}
-    >
-      {letter}
+    <div className="LetterAvatar">
+      <span style={{ color, fontSize: size / 1.3125 }}>{letter}</span>
     </div>
   );
 };
