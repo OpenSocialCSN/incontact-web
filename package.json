@@ -3,11 +3,12 @@
   "version": "1.0.0",
   "scripts": {
     "client": "cd client && yarn start",
-    "server": "nodemon --exec babel-node server/index.js",
-    "dev": "concurrently --kill-others-on-fail \"yarn server\" \"yarn client\"",
+    "server-dev": "nodemon --exec babel-node server/index.js",
+    "start": "node dist/index.js",
+    "dev": "concurrently --kill-others-on-fail \"yarn server-dev\" \"yarn client\"",
     "build": "babel -d dist/ server/",
     "deploy": "git push heroku master",
-    "heroku-postbuild": "cd client && npm install && npm install --only=dev --no-shrinkwrap && npm run build"
+    "heroku-postbuild": "npm run build && cd client && npm install && npm install --only=dev --no-shrinkwrap && npm run build"
   },
   "dependencies": {
     "body-parser": "^1.18.3",
