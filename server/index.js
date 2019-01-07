@@ -1,8 +1,8 @@
 // https://medium.freecodecamp.org/how-to-make-create-react-app-work-with-a-node-backend-api-7c5c48acb1b0
 
-const express = require("express");
-const bodyParser = require("body-parser");
-const path = require("path");
+import express from "express";
+import bodyParser from "body-parser";
+import path from "path";
 const app = express();
 const port = process.env.PORT || 5000;
 app.use(bodyParser.json());
@@ -24,7 +24,7 @@ if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "../client/build")));
   // Handle React routing, return all requests to React app
   app.get("*", function(req, res) {
-    res.sendFile(path.join(__dirname, "../client/build", "index.html"));
+    res.sendFile(path.join(__dirname, "client/build", "index.html"));
   });
 }
 
