@@ -7,6 +7,7 @@
     "start": "node dist/index.js",
     "dev": "concurrently --kill-others-on-fail \"yarn server-dev\" \"yarn client\"",
     "build": "babel -d dist/ server/",
+    "installScript": "npm i && cd client/ && npm i && cd ..",
     "deploy": "git push heroku master",
     "heroku-postbuild": "npm run build && cd client && npm install && npm install --only=dev --no-shrinkwrap && npm run build"
   },

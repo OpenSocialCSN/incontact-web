@@ -7,6 +7,6 @@ Server and web app for the inconact.me contact manager
 ```sh
 git clone https://github.com/OpenSocialCSN/incontact-web.git
 cd incontact-web
-npm install
+npm run installScript
 npm run dev
 ```
