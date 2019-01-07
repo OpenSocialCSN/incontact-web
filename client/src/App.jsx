@@ -29,8 +29,74 @@ export default function App() {
       <div className="App-content">
         {route === "Contacts" && <ContactsScreen contacts={FAKE_CONTACTS} />}
         {route === "Notifications" && <h1>NOTIFICATIONS SCREEN</h1>}
-        {route === "History" && <h1>HISTORY SCREEN</h1>}
+        {route === "History" && <ServerCall />}
       </div>
     </div>
   );
 }
+
+// import React, { Component } from "react";
+
+class ServerCall extends React.Component {
+  state = {
+    response: "",
+    post: "",
+    responseToPost: ""
+  };
+
+  componentDidMount() {
+    this.callApi()
+      .then(res => this.setState({ response: res.express }))
+      .catch(err => console.log(err));
+  }
+
+  callApi = async () => {
+    const response = await fetch("/api/hello");
+    console.log("wow", response);
+    console.log(response.body);
+
+    const body = await response.json();
+    console.log("rawr");
+
+    console.log("body:", body);
+
+    if (response.status !== 200) throw Error(body.message);
+    return body;
+  };
+
+  handleSubmit = async e => {
+    e.preventDefault();
+    console.log("posting:", this.state.post);
+
+    const response = await fetch("/api/world", {
+      method: "POST",
+      headers: {
+        "Content-Type": "Application/json"
+      },
+      body: JSON.stringify({ post: this.state.post })
+    });
+    const body = await response.text();
+    this.setState({ responseToPost: body });
+  };
+
+  render() {
+    return (
+      <div className="ServerCall">
+        <p>{this.state.response}</p>
+        <form onSubmit={this.handleSubmit}>
+          <p>
+            <strong>Post to Server:</strong>
+          </p>
+          <input
+            type="text"
+            value={this.state.post}
+            onChange={e => this.setState({ post: e.target.value })}
+          />
+          <button type="submit">Submit</button>
+        </form>
+        <p>{this.state.responseToPost}</p>
+      </div>
+    );
+  }
+}
+// export default ServerCall;
