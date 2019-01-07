@@ -52,22 +52,13 @@ class ServerCall extends React.Component {
 
   callApi = async () => {
     const response = await fetch("/api/hello");
-    console.log("wow", response);
-    console.log(response.body);
-
     const body = await response.json();
-    console.log("rawr");
-
-    console.log("body:", body);
-
     if (response.status !== 200) throw Error(body.message);
     return body;
   };
 
   handleSubmit = async e => {
     e.preventDefault();
-    console.log("posting:", this.state.post);
-
     const response = await fetch("/api/world", {
       method: "POST",
       headers: {
