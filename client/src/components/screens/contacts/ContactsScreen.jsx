@@ -5,7 +5,7 @@ import "./styles/ContactsScreen.scss";
 import ContactListItem from "./ContactListIstem";
 import ContactInfo from "./ContactInfo";
 
-export default function ContactsScreen({ contacts = [] }) {
+export default function ContactsScreen({ contacts = [], setModal }) {
   const [selectedContact, selectContact] = useState(
     contacts ? contacts[0] : null
   );
@@ -16,7 +16,12 @@ export default function ContactsScreen({ contacts = [] }) {
       <div className="Contacts-listColumn column">
         <span className="Contacts-titleRow">
           <h1>Contact List</h1>
-          <span className="Contacts-newContactBtn">+</span>
+          <span
+            className="Contacts-newContactBtn"
+            onClick={() => setModal("EditContact")}
+          >
+            +
+          </span>
         </span>
         <span className="Contacts-titleRow">
           <button>
@@ -34,7 +39,7 @@ export default function ContactsScreen({ contacts = [] }) {
           selectedContactId={selectedContactId}
         />
       </div>
-      <ContactInfo contact={selectedContact} />
+      <ContactInfo contact={selectedContact} setModal={setModal} />
     </div>
   );
 }

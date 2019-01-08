@@ -2,52 +2,30 @@ import React, { useState } from "react";
 
 import ContactsScreen from "./components/screens/contacts/ContactsScreen";
 import SideMenu from "./SideMenu";
+import EditContactModal from "./components/screens/modals/EditContactModal";
 
-const getRan = arr => arr[Math.floor(Math.random() * arr.length)];
-const FIRST_NAMES = ["Joe", "Anne", "Eric", "Tina"];
-const LAST_NAMES = ["Adams", "Johnson", "Nance", "Smith"];
-const SOCIAL = [
-  "linkedin",
-  "twitter",
-  "facebook",
-  "instagram",
-  "skype"
-  // "google",
-  // "youtube",
-];
-const CONTACT = ["homeEmail", "workEmail", "workPhone", "homePhone"];
-const FAKE_CONTACTS = [];
+import getFakeContacts from "./helpers/fakeContacts";
 
-for (let i = 0; i < 15; i++) {
-  const firstName = getRan(FIRST_NAMES);
-  const lastName = getRan(LAST_NAMES);
-
-  FAKE_CONTACTS.push({
-    displayName: firstName + " " + lastName,
-    firstName,
-    lastName,
-    id: i,
-    [getRan(CONTACT)]: "fake",
-    [getRan(CONTACT)]: "fake",
-    social: {
-      [getRan(SOCIAL)]: "fake",
-      [getRan(SOCIAL)]: "fake",
-      [getRan(SOCIAL)]: "fake"
-    }
-  });
-}
+const FAKE_CONTACTS = getFakeContacts();
 
 export default function App() {
   const [route, navigate] = useState("Contacts");
+  const [modal, setModal] = useState("EditContact");
+  const closeModal = function() {
+    setModal(null);
+  };
 
   return (
     <div className="App">
       <SideMenu navigate={navigate} route={route} />
       <div className="App-content">
-        {route === "Contacts" && <ContactsScreen contacts={FAKE_CONTACTS} />}
+        {route === "Contacts" && (
+          <ContactsScreen setModal={setModal} contacts={FAKE_CONTACTS} />
+        )}
         {route === "Notifications" && <h1>NOTIFICATIONS SCREEN</h1>}
         {route === "History" && <ServerCall />}
       </div>
+      {modal === "EditContact" && <EditContactModal onClose={closeModal} />}
     </div>
   );
 }

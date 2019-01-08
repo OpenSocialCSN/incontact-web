@@ -4,7 +4,7 @@ import { MdEdit } from "react-icons/md";
 import "./styles/ContactInfo.scss";
 import { Avatar } from "../../reusable";
 
-export default function ContactInfo({ contact }) {
+export default function ContactInfo({ contact, setModal }) {
   return (
     <div className="ContactInfo column">
       <div className="ContactInfo-container">
@@ -13,7 +13,10 @@ export default function ContactInfo({ contact }) {
             <Avatar user={contact} size={70} />
             <h2>{contact.displayName}</h2>
           </span>
-          <span className="ContactInfo-edit">
+          <span
+            className="ContactInfo-edit"
+            onClick={() => setModal("EditContact")}
+          >
             <MdEdit /> Edit
           </span>
         </div>
