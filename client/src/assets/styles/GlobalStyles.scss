@@ -95,6 +95,14 @@ body {
   }
 }
 
+.card {
+  background: #ffffff;
+  box-sizing: border-box;
+  border-radius: 10px;
+  box-shadow: 3px 4px 4px rgba(0, 0, 0, 0.16);
+  border: 2px solid white;
+}
+
 button {
   background-color: $primary; /* Green */
   border: none;

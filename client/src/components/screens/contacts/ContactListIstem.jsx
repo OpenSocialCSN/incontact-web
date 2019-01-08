@@ -9,7 +9,7 @@ import socialImages from "../../../assets/images/social";
 export default function ContactListItem({ contact, selectContact, isActive }) {
   return (
     <div
-      className={`ContactListItem${isActive ? " active" : ""}`}
+      className={`ContactListItem card${isActive ? " active" : ""}`}
       onClick={() => selectContact(contact)}
     >
       <span className="ContactListItem-iconAndName">

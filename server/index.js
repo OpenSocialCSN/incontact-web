@@ -13,7 +13,7 @@ import { getResolvers } from "./graphql/resolvers";
 import { typeDefs } from "./graphql/typeDefs";
 
 if (process.env.NODE_ENV !== "production") {
-  require("dotenv").load();
+  require("dotenv").config();
 }
 
 const dbUser = process.env.DB_USER;
@@ -23,25 +23,17 @@ const dbUrl = `mongodb://${dbUser}:${dbPass}@ds149984.mlab.com:49984/roddy-dev`;
 async function establishGraphQL() {
   try {
     const db = await MongoClient.connect(dbUrl);
-
-    const Collections = {
+    const mongoCollections = {
       Users: db.collection("users"),
       Contacts: db.collection("contacts")
     };
-
-    const resolvers = getResolvers(Collections);
+    const resolvers = getResolvers(mongoCollections);
     const schema = makeExecutableSchema({
       typeDefs,
       resolvers
     });
-
     app.use("/graphql", bodyParser.json(), graphqlExpress({ schema }));
-    app.use(
-      "/graphiql",
-      graphiqlExpress({
-        endpointURL: "/graphql"
-      })
-    );
+    app.use("/graphiql", graphiqlExpress({ endpointURL: "/graphql" }));
   } catch (e) {
     console.log(e);
   }

@@ -1,8 +1,9 @@
 import React, { useState } from "react";
+import { MdFilterList } from "react-icons/md";
 
 import "./styles/ContactsScreen.scss";
 import ContactListItem from "./ContactListIstem";
-import { MdFilterList } from "react-icons/md";
+import ContactInfo from "./ContactInfo";
 
 export default function ContactsScreen({ contacts = [] }) {
   const [selectedContact, selectContact] = useState(
@@ -12,7 +13,7 @@ export default function ContactsScreen({ contacts = [] }) {
 
   return (
     <div className="ContactsScreen">
-      <div className="Contacts-listColumn">
+      <div className="Contacts-listColumn column">
         <span className="Contacts-titleRow">
           <h1>Contact List</h1>
           <span className="Contacts-newContactBtn">+</span>
@@ -33,7 +34,7 @@ export default function ContactsScreen({ contacts = [] }) {
           selectedContactId={selectedContactId}
         />
       </div>
-      <div className="Contacts-contactInfoColumn">contact info</div>
+      <ContactInfo contact={selectedContact} />
     </div>
   );
 }
