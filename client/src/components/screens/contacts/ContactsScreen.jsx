@@ -2,6 +2,7 @@ import React, { useState } from "react";
 
 import "./styles/ContactsScreen.scss";
 import ContactListItem from "./ContactListIstem";
+import { MdFilterList } from "react-icons/md";
 
 export default function ContactsScreen({ contacts = [] }) {
   const [selectedContact, selectContact] = useState(
@@ -17,8 +18,14 @@ export default function ContactsScreen({ contacts = [] }) {
           <span className="Contacts-newContactBtn">+</span>
         </span>
         <span className="Contacts-titleRow">
-          <span>filter btn</span>
-          <input type="text" placeholder="Search... TODO" />
+          <button>
+            <MdFilterList /> Filter
+          </button>
+          <input
+            type="text"
+            placeholder="Search... TODO"
+            style={{ backgroundImage: MdFilterList }}
+          />
         </span>
         <ContactList
           contacts={contacts}
