@@ -10,7 +10,7 @@ const FAKE_CONTACTS = getFakeContacts();
 
 export default function App() {
   const [route, navigate] = useState("Contacts");
-  const [modal, setModal] = useState("EditContact");
+  const [modal, setModal] = useState({ screen: null, context: null });
   const closeModal = function() {
     setModal(null);
   };
@@ -20,12 +20,15 @@ export default function App() {
       <SideMenu navigate={navigate} route={route} />
       <div className="App-content">
         {route === "Contacts" && (
-          <ContactsScreen setModal={setModal} contacts={FAKE_CONTACTS} />
+          <ContactsScreen contacts={FAKE_CONTACTS} setModal={setModal} />
         )}
         {route === "Notifications" && <h1>NOTIFICATIONS SCREEN</h1>}
         {route === "History" && <ServerCall />}
       </div>
-      {modal === "EditContact" && <EditContactModal onClose={closeModal} />}
+
+      {modal && modal.screen === "EditContact" && (
+        <EditContactModal onClose={closeModal} context={modal.context} />
+      )}
     </div>
   );
 }

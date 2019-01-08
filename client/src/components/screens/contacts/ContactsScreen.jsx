@@ -18,7 +18,7 @@ export default function ContactsScreen({ contacts = [], setModal }) {
           <h1>Contact List</h1>
           <span
             className="Contacts-newContactBtn"
-            onClick={() => setModal("EditContact")}
+            onClick={() => setModal({ screen: "EditContact" })}
           >
             +
           </span>

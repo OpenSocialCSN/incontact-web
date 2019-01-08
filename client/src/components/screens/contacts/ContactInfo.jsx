@@ -15,7 +15,9 @@ export default function ContactInfo({ contact, setModal }) {
           </span>
           <span
             className="ContactInfo-edit"
-            onClick={() => setModal("EditContact")}
+            onClick={() =>
+              setModal({ screen: "EditContact", context: { contact } })
+            }
           >
             <MdEdit /> Edit
           </span>
