@@ -73,7 +73,6 @@
   justify-content: space-between;
   align-items: center;
   padding-left: 8px;
-  padding-right: 8px;
   cursor: pointer;
   height: 96px;
   box-sizing: border-box;
@@ -98,5 +97,21 @@
 
   &:hover {
     border: 2px solid lighten(#2f80ed, 20%);
+  }
+
+  .ContactListItem-icons {
+    min-width: 60px;
+    max-width: 60px;
+    height: 100%;
+    display: flex;
+    flex-flow: row wrap;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px;
+
+    img {
+      // margin-left: 5px;
+      // margin-bottom: 5px;
+    }
   }
 }

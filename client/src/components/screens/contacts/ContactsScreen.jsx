@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 import "./styles/ContactsScreen.scss";
-import { Avatar } from "../../reusable";
+import ContactListItem from "./ContactListIstem";
 
 export default function ContactsScreen({ contacts = [] }) {
   const [selectedContact, selectContact] = useState(
@@ -59,18 +59,3 @@ const ContactList = ({ contacts, selectContact, selectedContactId }) => {
     </div>
   );
 };
-
-const ContactListItem = ({ contact, selectContact, isActive }) => (
-  <div
-    className={`ContactListItem${isActive ? " active" : ""}`}
-    onClick={() => selectContact(contact)}
-  >
-    <span className="ContactListItem-iconAndName">
-      <Avatar user={contact} size={51} />
-      <h2>{contact.displayName}</h2>
-    </span>
-    <span>
-      CONTACT <br /> ICONS <br /> HERE
-    </span>
-  </div>
-);
