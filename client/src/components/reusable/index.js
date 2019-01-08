@@ -3,4 +3,5 @@
 
 export { default as Avatar } from "./Avatar";
 export { default as Circle } from "./Circle";
+export { default as Dropdown } from "./Dropdown";
 export { default as Modal } from "./Modal";
