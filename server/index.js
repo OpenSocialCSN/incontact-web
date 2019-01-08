@@ -1,12 +1,56 @@
 // https://medium.freecodecamp.org/how-to-make-create-react-app-work-with-a-node-backend-api-7c5c48acb1b0
-
+import "babel-core/register";
+import "babel-polyfill";
 import express from "express";
 import bodyParser from "body-parser";
 import path from "path";
+import { MongoClient, ObjectId } from "mongodb";
+import { graphqlExpress, graphiqlExpress } from "graphql-server-express";
+import { makeExecutableSchema } from "graphql-tools";
+import cors from "cors";
+
+import { getResolvers } from "./graphql/resolvers";
+import { typeDefs } from "./graphql/typeDefs";
+
+if (process.env.NODE_ENV !== "production") {
+  require("dotenv").load();
+}
+
+const dbUser = process.env.DB_USER;
+const dbPass = process.env.DB_PASS;
+const dbUrl = `mongodb://${dbUser}:${dbPass}@ds149984.mlab.com:49984/roddy-dev`;
+
+async function establishGraphQL() {
+  try {
+    const db = await MongoClient.connect(dbUrl);
+    const Posts = db.collection("posts");
+    const Comments = db.collection("comments");
+
+    const resolvers = getResolvers(Posts, Comments);
+    const schema = makeExecutableSchema({
+      typeDefs,
+      resolvers
+    });
+
+    app.use("/graphql", bodyParser.json(), graphqlExpress({ schema }));
+    app.use(
+      "/graphiql",
+      graphiqlExpress({
+        endpointURL: "/graphql"
+      })
+    );
+  } catch (e) {
+    console.log(e);
+  }
+}
+
 const app = express();
+app.use(cors());
 const port = process.env.PORT || 5000;
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+establishGraphQL();
 
 // API calls
 app.get("/api/hello", (req, res) => {
