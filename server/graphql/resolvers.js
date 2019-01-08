@@ -1,35 +1,38 @@
-export const getResolvers = (Posts, Comments) => ({
+import { ObjectId } from "mongodb";
+
+export const getResolvers = ({ Users, Contacts }) => ({
   Query: {
-    post: async (root, { _id }) => {
-      return prepare(await Posts.findOne(ObjectId(_id)));
+    user: async (root, { _id }) => {
+      return prepare(await Users.findOne(ObjectId(_id)));
     },
-    posts: async () => {
-      return (await Posts.find({}).toArray()).map(prepare);
+    users: async () => {
+      return (await Users.find({}).toArray()).map(prepare);
     },
-    comment: async (root, { _id }) => {
-      return prepare(await Comments.findOne(ObjectId(_id)));
+    contact: async (root, { _id }) => {
+      return prepare(await Contacts.findOne(ObjectId(_id)));
     }
   },
-  Post: {
-    comments: async ({ _id }) => {
-      return (await Comments.find({ postId: _id }).toArray()).map(prepare);
+  User: {
+    contacts: async ({ _id }, { first = 0, skip = 0 }) => {
+      return (await Contacts.find({ userId: _id })
+        .limit(first)
+        .skip(skip)
+        .toArray()).map(prepare);
     }
   },
-  Comment: {
-    post: async ({ postId }) => {
-      return prepare(await Posts.findOne(ObjectId(postId)));
+  Contact: {
+    user: async ({ userId }) => {
+      return prepare(await Users.findOne(ObjectId(userId)));
     }
   },
   Mutation: {
-    createPost: async (root, args, context, info) => {
-      console.log("creating post");
-
-      const res = await Posts.insertOne(args);
-      return prepare(res.ops[0]); // https://mongodb.github.io/node-mongodb-native/3.1/api/Collection.html#~insertOneWriteOpResult
+    createUser: async (root, args, context, info) => {
+      const res = await Users.insertOne(args);
+      return prepare(res.ops[0]);
     },
-    createComment: async (root, args) => {
-      const res = await Comments.insert(args);
-      return prepare(await Comments.findOne({ _id: res.insertedIds[1] }));
+    createContact: async (root, args) => {
+      const res = await Contacts.insert(args);
+      return prepare(res.ops[0]);
     }
   }
 });

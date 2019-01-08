@@ -1,28 +1,45 @@
 export const typeDefs = [
   `
 type Query {
-  post(_id: String): Post
-  posts: [Post]
-  comment(_id: String): Comment
+  user(_id: ID): User
+  users: [User]
+  contact(_id: ID): Contact
+  contacts: [Contact]
 }
 
-type Post {
-  _id: String
+type User {
+  _id: ID
+  createdAt:String
+  updatedOn:String
+  firstName: String
+  lastName: String
+  email: String
+  contacts(skip:Int, first:Int): [Contact]
+}
+
+type Contact {
+  _id: ID
+  userId: ID
+  createdAt:String
+  updatedOn:String
+  user: User
+  firstName: String
+  lastName: String
+  email: String
   title: String
-  content: String
-  comments: [Comment]
-}
-
-type Comment {
-  _id: String
-  postId: String
-  content: String
-  post: Post
+  organization:String
+  workAddress:String
+  homeAddress:String
+  workPhone:String
+  homePhone:String
+  imageUrl:String
 }
 
 type Mutation {
-  createPost(title: String, content: String): Post
-  createComment(postId: String, content: String): Comment
+  createUser(firstName: String, lastName: String, email: String): User
+  createContact(userId: ID, firstName: String, lastName: String, email: String,
+    title: String, organization:String, workAddress:String, homeAddress:String,
+    workPhone:String, homePhone:String, imageUrl:String): Contact
 }
 
 schema {

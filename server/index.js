@@ -4,7 +4,7 @@ import "babel-polyfill";
 import express from "express";
 import bodyParser from "body-parser";
 import path from "path";
-import { MongoClient, ObjectId } from "mongodb";
+import { MongoClient } from "mongodb";
 import { graphqlExpress, graphiqlExpress } from "graphql-server-express";
 import { makeExecutableSchema } from "graphql-tools";
 import cors from "cors";
@@ -23,10 +23,13 @@ const dbUrl = `mongodb://${dbUser}:${dbPass}@ds149984.mlab.com:49984/roddy-dev`;
 async function establishGraphQL() {
   try {
     const db = await MongoClient.connect(dbUrl);
-    const Posts = db.collection("posts");
-    const Comments = db.collection("comments");
 
-    const resolvers = getResolvers(Posts, Comments);
+    const Collections = {
+      Users: db.collection("users"),
+      Contacts: db.collection("contacts")
+    };
+
+    const resolvers = getResolvers(Collections);
     const schema = makeExecutableSchema({
       typeDefs,
       resolvers
