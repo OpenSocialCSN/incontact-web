@@ -3,12 +3,11 @@
   justify-content: space-around;
   height: 100%;
   .column {
-    // columns
     width: 100%;
   }
 }
 
-.Contacts-listColumn {
+.ContactList {
   h1 {
     font-style: normal;
     font-weight: bold;
@@ -17,7 +16,7 @@
     color: #2f80ed;
     display: inline;
   }
-  .Contacts-titleRow {
+  .ContactList-titleRow {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -25,7 +24,7 @@
     padding-left: 10px;
     padding-right: 10px;
   }
-  .Contacts-newContactBtn {
+  .ContactList-newContactBtn {
     border-radius: 50%;
     width: 42px;
     height: 42px;
@@ -42,25 +41,24 @@
       box-shadow: none;
     }
   }
-}
+  .ContactList-contacts {
+    overflow-y: auto;
+    height: 100%;
+    margin-top: 10px;
 
-.ContactList {
-  overflow-y: auto;
-  height: 100%;
-  margin-top: 10px;
+    .ContactList-background {
+      background: #f2f2f2;
+      box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+      border-radius: 13px;
+      width: 90% !important;
+      padding: 10px;
+      margin: auto;
+      margin-bottom: 100px;
+    }
 
-  .ContactList-background {
-    background: #f2f2f2;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-    border-radius: 13px;
-    width: 90% !important;
-    padding: 10px;
-    margin: auto;
-    margin-bottom: 100px;
-  }
-
-  .active {
-    border: 2px solid #2f80ed;
+    .active {
+      border: 2px solid #2f80ed;
+    }
   }
 }
 

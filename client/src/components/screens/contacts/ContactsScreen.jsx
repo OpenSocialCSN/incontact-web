@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { MdFilterList } from "react-icons/md";
 
 import "./styles/ContactsScreen.scss";
 import ContactList from "./ContactList";
@@ -13,32 +12,12 @@ export default function ContactsScreen({ contacts = [], setModal }) {
 
   return (
     <div className="ContactsScreen">
-      <div className="Contacts-listColumn column">
-        <span className="Contacts-titleRow">
-          <h1>Contact List</h1>
-          <span
-            className="Contacts-newContactBtn"
-            onClick={() => setModal({ screen: "EditContact" })}
-          >
-            +
-          </span>
-        </span>
-        <span className="Contacts-titleRow">
-          <button>
-            <MdFilterList /> Filter
-          </button>
-          <input
-            type="text"
-            placeholder="Search... TODO"
-            style={{ backgroundImage: MdFilterList }}
-          />
-        </span>
-        <ContactList
-          contacts={contacts}
-          selectContact={selectContact}
-          selectedContactId={selectedContactId}
-        />
-      </div>
+      <ContactList
+        contacts={contacts}
+        selectContact={selectContact}
+        selectedContactId={selectedContactId}
+        setModal={setModal}
+      />
       <ContactInfo contact={selectedContact} setModal={setModal} />
     </div>
   );
