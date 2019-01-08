@@ -1,4 +1,6 @@
 // https://medium.freecodecamp.org/how-to-make-create-react-app-work-with-a-node-backend-api-7c5c48acb1b0
+import "babel-core/register";
+import "babel-polyfill";
 import express from "express";
 import bodyParser from "body-parser";
 import path from "path";
@@ -12,8 +14,6 @@ import { typeDefs } from "./graphql/typeDefs";
 
 if (process.env.NODE_ENV !== "production") {
   require("dotenv").load();
-  require("babel-core/register");
-  require("babel-polyfill");
 }
 
 const dbUser = process.env.DB_USER;
