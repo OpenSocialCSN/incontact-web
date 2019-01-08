@@ -6,6 +6,16 @@ import SideMenu from "./SideMenu";
 const getRan = arr => arr[Math.floor(Math.random() * arr.length)];
 const FIRST_NAMES = ["Joe", "Anne", "Eric", "Tina"];
 const LAST_NAMES = ["Adams", "Johnson", "Nance", "Smith"];
+const SOCIAL = [
+  "linkedin",
+  "twitter",
+  "facebook",
+  "instagram",
+  "skype"
+  // "google",
+  // "youtube",
+];
+const CONTACT = ["homeEmail", "workEmail", "workPhone", "homePhone"];
 const FAKE_CONTACTS = [];
 
 for (let i = 0; i < 15; i++) {
@@ -16,7 +26,14 @@ for (let i = 0; i < 15; i++) {
     displayName: firstName + " " + lastName,
     firstName,
     lastName,
-    id: i
+    id: i,
+    [getRan(CONTACT)]: "fake",
+    [getRan(CONTACT)]: "fake",
+    social: {
+      [getRan(SOCIAL)]: "fake",
+      [getRan(SOCIAL)]: "fake",
+      [getRan(SOCIAL)]: "fake"
+    }
   });
 }
 
@@ -34,8 +51,6 @@ export default function App() {
     </div>
   );
 }
-
-// import React, { Component } from "react";
 
 class ServerCall extends React.Component {
   state = {
@@ -90,4 +105,3 @@ class ServerCall extends React.Component {
     );
   }
 }
-// export default ServerCall;

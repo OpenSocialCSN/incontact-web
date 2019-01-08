@@ -3,8 +3,8 @@ import React from "react";
 import { Avatar } from "../../reusable";
 import phone from "../../../assets/images/phone.png";
 import email from "../../../assets/images/email.png";
-import linkedin from "../../../assets/images/social/linkedin.png";
-import skype from "../../../assets/images/social/skype.png";
+
+import socialImages from "../../../assets/images/social";
 
 export default function ContactListItem({ contact, selectContact, isActive }) {
   return (
@@ -16,12 +16,28 @@ export default function ContactListItem({ contact, selectContact, isActive }) {
         <Avatar user={contact} size={51} />
         <h2>{contact.displayName}</h2>
       </span>
-      <span className="ContactListItem-icons">
-        <img src={phone} alt="" style={{ height: 25 }} />
-        <img src={email} alt="" style={{ height: 25 }} />
-        <img src={linkedin} alt="" style={{ height: 25 }} />
-        <img src={skype} alt="" style={{ height: 25 }} />
-      </span>
+      <ContactIcons contact={contact} />
     </div>
   );
 }
+
+const ContactIcons = function({ contact }) {
+  const hasEmail = contact.workEmail || contact.homeEmail;
+  const hasPhone = contact.workPhone || contact.homePhone;
+  let iconCount = (hasEmail ? 1 : 0) + (hasPhone ? 1 : 0);
+  const socialKeys = Object.keys(contact.social);
+  const socialIconJsx = [];
+  for (let i = 0; i < socialKeys.length && iconCount < 4; i++) {
+    iconCount++;
+    socialIconJsx.push(<Icon key={i} src={socialImages[socialKeys[i]]} />);
+  }
+  return (
+    <span className="ContactListItem-icons">
+      {hasPhone && <Icon src={phone} />}
+      {hasEmail && <Icon src={email} />}
+      {socialIconJsx}
+    </span>
+  );
+};
+
+const Icon = ({ src }) => <img src={src} alt="" style={{ height: 25 }} />;
