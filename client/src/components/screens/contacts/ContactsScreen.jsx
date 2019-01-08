@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { MdFilterList } from "react-icons/md";
 
 import "./styles/ContactsScreen.scss";
-import ContactListItem from "./ContactListIstem";
+import ContactList from "./ContactList";
 import ContactInfo from "./ContactInfo";
 
 export default function ContactsScreen({ contacts = [], setModal }) {
@@ -43,32 +43,3 @@ export default function ContactsScreen({ contacts = [], setModal }) {
     </div>
   );
 }
-
-const ContactList = ({ contacts, selectContact, selectedContactId }) => {
-  const sortedContacts = contacts.slice(0).sort((a, b) => {
-    if (a.lastName < b.lastName) {
-      return -1;
-    } else if (a.lastName === b.lastName) {
-      return a.firstName < b.firstName ? -1 : 1;
-    } else if (a.lastName > b.lastName) {
-      return 1;
-    }
-    return 0;
-  });
-
-  return (
-    <div className="ContactList">
-      <div className="ContactList-background">
-        {sortedContacts &&
-          sortedContacts.map((c, i) => (
-            <ContactListItem
-              key={i}
-              contact={c}
-              selectContact={selectContact}
-              isActive={selectedContactId === c.id}
-            />
-          ))}
-      </div>
-    </div>
-  );
-};
