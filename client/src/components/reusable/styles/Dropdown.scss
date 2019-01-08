@@ -21,7 +21,8 @@
     border-radius: 3px;
 
     &:hover {
-      background-color: lightgray;
+      background-color: lighten(#2f80ed, 10%);
+      color: white;
     }
   }
 }

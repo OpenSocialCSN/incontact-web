@@ -31,7 +31,14 @@ export default function ContactList({
               body: "New Contact",
               onClick: () => setModal({ screen: "EditContact" })
             },
-            { body: "option2" }
+            {
+              body: "Link Account",
+              onClick: () => setModal({ screen: "LinkAccount" })
+            },
+            {
+              body: "Import Contacts",
+              onClick: () => alert("TODO")
+            }
           ]}
         >
           <span className="ContactList-newContactBtn">+</span>

@@ -20,7 +20,14 @@ export default function DropdownButton({
           ) : (
             <React.Fragment>
               {dropdownItems.map((item, i) => (
-                <div className="Dropdown-option" onClick={item.onClick} key={i}>
+                <div
+                  className="Dropdown-option"
+                  onClick={() => {
+                    item.onClick();
+                    setDropdown(false);
+                  }}
+                  key={i}
+                >
                   {item.body}
                 </div>
               ))}

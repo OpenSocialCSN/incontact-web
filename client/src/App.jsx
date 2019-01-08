@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import ContactsScreen from "./components/screens/contacts/ContactsScreen";
 import SideMenu from "./SideMenu";
 import EditContactModal from "./components/screens/modals/EditContactModal";
+import LinkAccountModal from "./components/screens/modals/LinkAccountModal";
 
 import getFakeContacts from "./helpers/fakeContacts";
 
@@ -12,7 +13,7 @@ export default function App() {
   const [route, navigate] = useState("Contacts");
   const [modal, setModal] = useState({ screen: null, context: null });
   const closeModal = function() {
-    setModal(null);
+    setModal({ screen: null, context: null });
   };
 
   return (
@@ -25,13 +26,19 @@ export default function App() {
         {route === "Notifications" && <h1>NOTIFICATIONS SCREEN</h1>}
         {route === "History" && <ServerCall />}
       </div>
-
-      {modal && modal.screen === "EditContact" && (
-        <EditContactModal onClose={closeModal} context={modal.context} />
-      )}
+      {modal.screen && <AppModal modal={modal} closeModal={closeModal} />}
     </div>
   );
 }
+
+const AppModal = function({ modal, closeModal }) {
+  switch (modal.screen) {
+    case "EditContact":
+      return <EditContactModal onClose={closeModal} context={modal.context} />;
+    case "LinkAccount":
+      return <LinkAccountModal onClose={closeModal} context={modal.context} />;
+  }
+};
 
 class ServerCall extends React.Component {
   state = {
