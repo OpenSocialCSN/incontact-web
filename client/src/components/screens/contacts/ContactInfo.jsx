@@ -1,4 +1,5 @@
 import React from "react";
+import { MdEdit } from "react-icons/md";
 
 import "./styles/ContactInfo.scss";
 import { Avatar } from "../../reusable";
@@ -6,15 +7,51 @@ import { Avatar } from "../../reusable";
 export default function ContactInfo({ contact }) {
   return (
     <div className="ContactInfo column">
-      <div className="ContactInfo-content">
-        <div className="ContactListItem">
-          <span className="ContactListItem-iconAndName card">
-            <Avatar user={contact} size={51} />
+      <div className="ContactInfo-container">
+        <div className="ContactListItem card">
+          <span className="ContactListItem-iconAndName">
+            <Avatar user={contact} size={70} />
             <h2>{contact.displayName}</h2>
           </span>
-          edit btn
+          <span className="ContactInfo-edit">
+            <MdEdit /> Edit
+          </span>
         </div>
-        sdfas
+        <div className="ContactInfo-content">
+          <div className="column">
+            <div className="card">Add note</div>
+            <div className="card">
+              <h2>Activity</h2>
+              <br />
+              <br />
+              <br />
+              <br />
+              <br />
+              <br />
+              <br />
+              <br />
+              <br />
+              <br />
+              <br />
+            </div>
+          </div>
+          <div className="column">
+            <div className="card">
+              <h2>Contact Details</h2>
+              <br />
+              <br />
+              <br />
+              <br />
+              <br />
+              <br />
+              <br />
+              <br />
+              <br />
+              <br />
+              <br />
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );

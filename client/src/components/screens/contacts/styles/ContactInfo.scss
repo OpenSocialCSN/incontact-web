@@ -1,10 +1,51 @@
 .ContactInfo {
+  width: 100%;
   background-color: #bac1c6;
-  .ContactInfo-content {
-    width: 90%;
+  .ContactInfo-container {
+    width: 94%;
     display: flex;
     flex-direction: column;
     margin: auto;
     margin-top: 15px;
+  }
+  .ContactListItem {
+    //Header
+    .ContactInfo-edit {
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      color: #2f80ed;
+      font-size: 18px;
+      font-weight: bold;
+      align-self: flex-start;
+      margin: 7px;
+    }
+
+    //overrides
+    width: 100%;
+    height: 120px;
+    cursor: default;
+    &:hover {
+      border: 2px solid white !important;
+    }
+  }
+
+  //under header
+  .ContactInfo-content {
+    display: flex;
+    .card {
+      margin: 5px;
+      text-align: left;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      vertical-align: text-top;
+      padding: 5px;
+    }
+    h2 {
+      color: #2f80ed;
+      font-size: 22px;
+      margin: 0px;
+    }
   }
 }
