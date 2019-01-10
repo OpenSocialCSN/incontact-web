@@ -16,7 +16,7 @@ export default function SideMenu({ navigate, route }) {
           navigate(ROUTES[0].name);
         }}
       >
-        incontact
+        inContact
       </h1>
       {ROUTES.map(r => (
         <SideMenuItem
