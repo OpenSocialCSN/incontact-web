@@ -37,6 +37,8 @@ const AppModal = function({ modal, closeModal }) {
       return <EditContactModal onClose={closeModal} context={modal.context} />;
     case "LinkAccount":
       return <LinkAccountModal onClose={closeModal} context={modal.context} />;
+    default:
+      throw new Error("Unrecognized modal");
   }
 };
 

@@ -10,8 +10,14 @@ export default function LinkAccountModal({
 }) {
   return (
     <Modal onClose={onClose}>
-      <div className="modalContent">
+      <div className="LinkAccountModal modalContent">
         <h2>Link Account</h2>
+        <img
+          src={socialIcons.google}
+          onClick={CLICK_HANDLERS.google}
+          alt="Google icon"
+        />
+        <h2>TODO</h2>
         {Object.keys(socialIcons).map((service, i) => (
           <img key={i} src={socialIcons[service]} alt="" />
         ))}
@@ -19,3 +25,8 @@ export default function LinkAccountModal({
     </Modal>
   );
 }
+
+const CLICK_HANDLERS = {
+  google: () =>
+    window.open("http://localhost:5000/integrations/google/authUrl", "_blank")
+};
