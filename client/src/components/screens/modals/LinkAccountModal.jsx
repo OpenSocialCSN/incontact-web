@@ -27,6 +27,9 @@ export default function LinkAccountModal({
 }
 
 const CLICK_HANDLERS = {
-  google: () =>
-    window.open("http://localhost:5000/integrations/google/authUrl", "_blank")
+  google: () => window.open(`${BASE_URI}integrations/google/authUrl`, "_blank")
 };
+
+const BASE_URI = window.location.href.includes("localhost")
+  ? "http://localhost:5000/"
+  : "https://incontactme.herokuapp.com/";

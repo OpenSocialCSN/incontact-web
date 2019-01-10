@@ -11,7 +11,11 @@ const config = {
   client_secret: "3PL_2opKmMQvqNO1cXrCYnmP",
   redirect_uris: [
     "https://www.incontact.me",
-    "http://localhost:5000/integrations/google/oauth2callback"
+    `${
+      process.env.NODE_ENV === "production"
+        ? `https://incontactme.herokuapp.com/`
+        : `http://localhost:5000`
+    }/integrations/google/oauth2callback`
   ],
   javascript_origins: [
     "http://localhost:3000",
@@ -28,15 +32,6 @@ class GoogleAuth {
       throw new Error("Invalid redirect uri");
     }
     const redirectUri = config.redirect_uris[config.redirect_uris.length - 1];
-    const parts = new url.URL(redirectUri);
-    if (
-      redirectUri.length === 0 ||
-      parts.port !== "5000" ||
-      parts.hostname !== "localhost"
-      //    ||parts.pathname !== "/oauth2callback"
-    ) {
-      throw new Error("Invalid redirect uri");
-    }
 
     // create an oAuth client to authorize the API call
     this.oAuth2Client = new google.auth.OAuth2(
