@@ -13,7 +13,7 @@ const config = {
     "https://www.incontact.me",
     `${
       process.env.NODE_ENV === "production"
-        ? `https://incontactme.herokuapp.com/`
+        ? `https://incontactme.herokuapp.com`
         : `http://localhost:5000`
     }/integrations/google/oauth2callback`
   ],
