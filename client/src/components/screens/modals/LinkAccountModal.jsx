@@ -17,7 +17,22 @@ export default function LinkAccountModal({
           onClick={CLICK_HANDLERS.google}
           alt="Google icon"
         />
-        <h2>TODO</h2>
+        <ul>
+          <li>Clicking will direct you to a google login.</li>
+          <li>
+            {" "}
+            it may say unsafe until we go through a site verification process
+          </li>
+          <li>click advanced > click go to incontact.herokuapp</li>
+          <li>
+            {" "}
+            After authorizing the app, you'll see a list of retrieved contacts
+            from your account.{" "}
+          </li>
+        </ul>
+        <br />
+        <br /> TODO: user signup, save contacts to db
+        <h2>INTEGRATIONS TODO</h2>
         {Object.keys(socialIcons).map((service, i) => (
           <img key={i} src={socialIcons[service]} alt="" />
         ))}
