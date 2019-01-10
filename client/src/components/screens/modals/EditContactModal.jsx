@@ -36,7 +36,9 @@ export default function EditContactModal({
           <br />
           <span className="EditContactModal-saveBtns">
             <button>SAVE</button>
-            <button className="btn-secondary">CANCEL</button>
+            <button className="btn-secondary" onClick={onClose}>
+              CANCEL
+            </button>
           </span>
         </div>
       </span>
