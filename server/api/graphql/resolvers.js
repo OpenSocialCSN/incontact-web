@@ -31,6 +31,7 @@ export const getResolvers = ({ Users, Contacts }) => ({
       return prepare(res.ops[0]);
     },
     createContact: async (root, args) => {
+      args.displayName = generateDisplayName(args);
       const res = await Contacts.insert(args);
       return prepare(res.ops[0]);
     }
@@ -40,4 +41,13 @@ export const getResolvers = ({ Users, Contacts }) => ({
 const prepare = o => {
   o._id = o._id.toString();
   return o;
+};
+
+const generateDisplayName = contact => {
+  if (contact.firstName || contact.lastName) {
+    return `${contact.firstName || ""}${
+      contact.firstName && contact.lastName ? ` ` : ``
+    }${contact.lastName || ""}`;
+  }
+  return contact.email || contact.homePhone || contact.workPhone || "?";
 };

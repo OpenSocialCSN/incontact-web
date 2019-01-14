@@ -4,7 +4,7 @@ import { MdEdit } from "react-icons/md";
 import "./styles/ContactInfo.scss";
 import { Avatar } from "../../reusable";
 
-export default function ContactInfo({ contact, setModal }) {
+export default function ContactInfo({ contact = {}, setModal }) {
   return (
     <div className="ContactInfo column">
       <div className="ContactInfo-container">

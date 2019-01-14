@@ -70,14 +70,15 @@ const ScrollableContactList = ({
 }) => (
   <div className="ContactList-contacts">
     <div className="ContactList-background">
-      {contacts.map((c, i) => (
-        <ContactListItem
-          key={i}
-          contact={c}
-          selectContact={selectContact}
-          isActive={selectedContactId === c.id}
-        />
-      ))}
+      {contacts &&
+        contacts.map((c, i) => (
+          <ContactListItem
+            key={i}
+            contact={c}
+            selectContact={selectContact}
+            isActive={selectedContactId === c._id}
+          />
+        ))}
     </div>
   </div>
 );

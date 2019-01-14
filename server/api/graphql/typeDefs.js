@@ -19,12 +19,13 @@ type User {
 
 type Contact {
   _id: ID
-  userId: ID
+  userId: ID!
   createdAt:String
   updatedOn:String
   user: User
   firstName: String
   lastName: String
+  displayName: String
   email: String
   title: String
   organization:String
@@ -37,10 +38,11 @@ type Contact {
 
 type Mutation {
   createUser(firstName: String, lastName: String, email: String): User
-  createContact(userId: ID, firstName: String, lastName: String, email: String,
+  createContact(userId: ID!, firstName: String, lastName: String, 
+    displayName: String, email: String,
     title: String, organization:String, workAddress:String, homeAddress:String,
     workPhone:String, homePhone:String, imageUrl:String): Contact
-}
+  }
 
 schema {
   query: Query

@@ -25,7 +25,7 @@ const ContactIcons = function({ contact }) {
   const hasEmail = contact.workEmail || contact.homeEmail;
   const hasPhone = contact.workPhone || contact.homePhone;
   let iconCount = (hasEmail ? 1 : 0) + (hasPhone ? 1 : 0);
-  const socialKeys = Object.keys(contact.social);
+  const socialKeys = contact.social ? Object.keys(contact.social) : [];
   const socialIconJsx = [];
   for (let i = 0; i < socialKeys.length && iconCount < 4; i++) {
     iconCount++;
