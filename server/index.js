@@ -18,12 +18,16 @@ app.use(bodyParser.urlencoded({ extended: true }));
 establishEndpoints(app);
 
 if (process.env.NODE_ENV === "production") {
+  console.log("Server starting in prod mode");
+
   // Serve any static files
   app.use(express.static(path.join(__dirname, "../client/build")));
   // Handle React routing, return all requests to React app
   app.get("*", function(req, res) {
     res.sendFile(path.join(__dirname, "client/build", "index.html"));
   });
+} else {
+  console.log("Server starting in dv mode");
 }
 
 app.listen(port, () => console.log(`Listening on port ${port}`));
