@@ -14,6 +14,7 @@ const dbPass = process.env.DB_PASS;
 const dbUrl = `mongodb://${dbUser}:${dbPass}@ds149984.mlab.com:49984/roddy-dev`;
 
 async function establishGraphQL(app) {
+  let resolvers;
   try {
     const db = await MongoClient.connect(dbUrl);
     const mongoCollections = {
@@ -21,7 +22,7 @@ async function establishGraphQL(app) {
       Contacts: db.collection("contacts"),
       Social: db.collection("social")
     };
-    const resolvers = getResolvers(mongoCollections);
+    resolvers = getResolvers(mongoCollections);
     const schema = makeExecutableSchema({
       typeDefs,
       resolvers
@@ -31,6 +32,7 @@ async function establishGraphQL(app) {
   } catch (e) {
     console.log(e);
   }
+  return resolvers;
 }
 
 export default establishGraphQL;

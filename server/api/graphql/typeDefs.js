@@ -24,6 +24,7 @@ type Social {
   facebook:String
   instagram:String
   skype:String
+  webpage:String
 }
 
 type Contact {
@@ -61,7 +62,8 @@ type Mutation {
     twitter:String,
     facebook:String,
     instagram:String,
-    skype:String): Social
+    skype:String,
+    webpage:String): Social
   deleteContact(_id:ID!): Int
 }
 

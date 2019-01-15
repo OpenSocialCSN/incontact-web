@@ -1,7 +1,7 @@
 import authClient from "./googleAuth";
 import { getConnections } from "./getConnections";
 
-const establishGoogleEndpoints = function(expressApp) {
+const establishGoogleEndpoints = function(expressApp, graphQlResolvers) {
   expressApp.get("/integrations/google/authUrl", (req, res) => {
     // res.send(authClient.getAuthUrl());
     const authUrl = authClient.getAuthUrl();
@@ -15,9 +15,20 @@ const establishGoogleEndpoints = function(expressApp) {
     const tokens = await authClient.getToken(code);
     const connections = await getConnections(tokens);
     console.log(`found ${connections.length} connections`);
-    res.send(connections);
+    // console.log("connections:", connections);
 
-    // redirect user to url:
+    res.send(connections);
+    connections.forEach(async c => {
+      const { social } = c;
+      delete c.social;
+      c.userId = "5c3cd65a8474e01b17a8101d"; //TODO:
+      const { _id } = await graphQlResolvers.Mutation.createContact(null, c);
+      if (social) {
+        social.contactId = _id;
+        graphQlResolvers.Mutation.addSocial(null, social);
+      }
+    });
+
     // res.statusCode = 302;
     // res.setHeader("Location", "http://localhost:3000");
     // res.end();
@@ -25,3 +36,26 @@ const establishGoogleEndpoints = function(expressApp) {
 };
 
 export default establishGoogleEndpoints;
+
+export const executeQuery = query => {
+  return fetch("/graphql", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json"
+    },
+    body: JSON.stringify({
+      query
+    })
+  })
+    .then(r => r.json())
+    .then(res => {
+      return new Promise((resolve, reject) => {
+        if (res.errors) {
+          reject(res.errors);
+        } else {
+          resolve(res.data);
+        }
+      });
+    });
+};
