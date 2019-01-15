@@ -25,8 +25,9 @@ type Contact {
   user: User
   firstName: String
   lastName: String
-  email: String
   title: String
+  homeEmail: String
+  workEmail: String
   organization:String
   workAddress:String
   homeAddress:String
@@ -37,12 +38,12 @@ type Contact {
 
 type Mutation {
   createUser(firstName: String, lastName: String, email: String): User
-  createContact(userId: ID!, firstName: String, lastName: String, email: String,
-    title: String, organization:String, workAddress:String, homeAddress:String,
+  createContact(userId: ID!, firstName: String, lastName: String, homeEmail: String,
+    workEmail: String, title: String, organization:String, workAddress:String, homeAddress:String,
     workPhone:String, homePhone:String, imageUrl:String): Contact
-  updateContact(_id: ID!, firstName: String, lastName: String,  email: String, 
-    title: String, organization:String, workAddress:String, homeAddress:String,
-    workPhone:String, homePhone:String, imageUrl:String): Contact
+  updateContact(_id: ID!, firstName: String, lastName: String, homeEmail: String,
+    workEmail: String, title: String, organization:String, workAddress:String, 
+    homeAddress:String, workPhone:String, homePhone:String, imageUrl:String): Contact
   deleteContact(_id:ID!): Int
 }
 

@@ -32,7 +32,8 @@ export const getUserById = userId => {
         email
         contacts {
           _id
-          email
+          homeEmail
+          workEmail
           firstName
           lastName
           workPhone
