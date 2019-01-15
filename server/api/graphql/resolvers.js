@@ -34,6 +34,19 @@ export const getResolvers = ({ Users, Contacts }) => ({
       args.displayName = generateDisplayName(args);
       const res = await Contacts.insert(args);
       return prepare(res.ops[0]);
+    },
+    updateContact: async (root, args) => {
+      const query = { _id: ObjectId(args._id) };
+      delete args._id;
+      args.updatedOn = new Date().getTime();
+      await Contacts.update(query, { $set: args });
+      const updated = await Contacts.findOne(ObjectId(query._id));
+      return updated;
+    },
+    deleteContact: async (root, args) => {
+      let x = await Contacts.deleteOne({ _id: ObjectId(args._id) });
+      // return delete count
+      return x.result.n;
     }
   }
 });

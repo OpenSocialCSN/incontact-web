@@ -42,7 +42,12 @@ type Mutation {
     displayName: String, email: String,
     title: String, organization:String, workAddress:String, homeAddress:String,
     workPhone:String, homePhone:String, imageUrl:String): Contact
-  }
+  updateContact(_id: ID!, firstName: String, lastName: String, 
+    displayName: String, email: String, title: String,
+    organization:String, workAddress:String, homeAddress:String,
+    workPhone:String, homePhone:String, imageUrl:String): Contact
+  deleteContact(_id:ID!): Int
+}
 
 schema {
   query: Query
