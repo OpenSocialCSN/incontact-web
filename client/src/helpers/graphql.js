@@ -75,6 +75,17 @@ export const updateContact = contact => {
   return executeQuery(query).catch(errors => console.log("errs:", errors));
 };
 
+export const deleteContactById = contactId => {
+  if (!contactId) throw new Error("No id passed @ deleteContact");
+
+  const query = `
+    mutation DeleteContact{
+      deleteContact(_id:"${contactId}")
+    }`;
+
+  return executeQuery(query).catch(errors => console.log("errs:", errors));
+};
+
 const generateArgs = updateObject => {
   let args = ``;
   const keys = Object.keys(updateObject);

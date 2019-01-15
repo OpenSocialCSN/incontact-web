@@ -1,11 +1,12 @@
 import React from "react";
-import { MdEdit } from "react-icons/md";
+import { MdEdit, MdMoreVert } from "react-icons/md";
 
 import "./styles/ContactInfo.scss";
 import phone from "../../../assets/images/phone.png";
 import email from "../../../assets/images/email.png";
 import socialImages from "../../../assets/images/social";
-import { Avatar } from "../../reusable";
+import { Avatar, Dropdown } from "../../reusable";
+import { deleteContactById } from "../../../helpers/graphql";
 
 export default function ContactInfo({ contact = {}, setModal }) {
   return (
@@ -16,13 +17,39 @@ export default function ContactInfo({ contact = {}, setModal }) {
             <Avatar user={contact} size={70} />
             <h2>{contact.displayName}</h2>
           </span>
-          <span
-            className="ContactInfo-edit"
-            onClick={() =>
-              setModal({ screen: "EditContact", context: { contact } })
-            }
-          >
-            <MdEdit /> Edit
+          <span className="ContactInfo-headerBtns">
+            <span
+              className="ContactInfo-edit"
+              onClick={() =>
+                setModal({ screen: "EditContact", context: { contact } })
+              }
+            >
+              <MdEdit /> Edit
+            </span>
+            <Dropdown
+              position="left"
+              dropdownItems={[
+                {
+                  body: "View History",
+                  onClick: () => alert("TODO")
+                },
+                {
+                  body: "Delete Contact",
+                  onClick: () =>
+                    window.confirm(
+                      "Are you sure you want to delete this contact?"
+                    ) && deleteContactById(contact._id)
+                },
+                {
+                  body: "Export",
+                  onClick: () => alert("TODO")
+                }
+              ]}
+            >
+              <button className="ContactInfo-more">
+                <MdMoreVert />
+              </button>
+            </Dropdown>
           </span>
         </div>
         <div className="ContactInfo-content">
@@ -93,3 +120,7 @@ const ContactDetailItem = ({ icon, label, value }) => (
 );
 
 const Icon = ({ src }) => <img src={src} alt="" style={{ height: 25 }} />;
+
+// const confirmDeleteContact = contactId => {
+//   const desicion = confirm("Are you sure you want to delete this contact?");
+// };

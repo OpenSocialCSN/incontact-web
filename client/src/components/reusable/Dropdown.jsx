@@ -4,7 +4,8 @@ import "./styles/Dropdown.scss";
 export default function DropdownButton({
   children,
   dropdownItems = [],
-  renderDropdown
+  renderDropdown,
+  position = "right"
 }) {
   const [showDropdown, setDropdown] = useState(false);
   const ref = useRef();
@@ -14,7 +15,10 @@ export default function DropdownButton({
     <span className="Dropdown" onClick={() => setDropdown(true)} ref={ref}>
       {children}
       {showDropdown && (
-        <span className="Dropdown-content" onClick={e => e.stopPropagation()}>
+        <span
+          className={`Dropdown-content ${position}`}
+          onClick={e => e.stopPropagation()}
+        >
           {renderDropdown ? (
             renderDropdown()
           ) : (
