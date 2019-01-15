@@ -10,7 +10,7 @@ export default function ContactListItem({ contact, selectContact, isActive }) {
   return (
     <div
       className={`ContactListItem card${isActive ? " active" : ""}`}
-      onClick={() => selectContact(contact)}
+      onClick={() => selectContact(contact._id)}
     >
       <span className="ContactListItem-iconAndName">
         <Avatar user={contact} size={51} />

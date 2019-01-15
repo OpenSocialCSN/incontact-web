@@ -12,17 +12,29 @@ export default function App() {
   const [route, navigate] = useState("Contacts");
   const [modal, setModal] = useState({ screen: null, context: null });
   const [user, setUser] = useState(null);
-  const closeModal = () => setModal({ screen: null, context: null });
+
+  const updateData = () => {
+    loadData().then(data => {
+      setUser(data.user);
+    });
+  };
 
   useEffect(
     () => {
-      getUserById("5c3cd65a8474e01b17a8101d").then(data => {
-        setUser(data.user);
-      });
+      updateData();
       // return () => {}; // unsubscribe and stuff here
     },
     [route]
   ); // Only re-run the effect if route changes
+
+  const closeModal = () => {
+    setModal({ screen: null, context: null });
+    // temporary: when user is done with editing modal, reload all
+    // fututre: add mobx, update individual contacts, users on update actions
+    setTimeout(() => {
+      updateData();
+    }, 400);
+  };
 
   return (
     <div className="App">
@@ -51,4 +63,28 @@ const AppModal = function({ modal, closeModal }) {
     default:
       throw new Error("Unrecognized modal");
   }
+};
+
+const loadData = () => {
+  return new Promise(resolve => {
+    getUserById("5c3cd65a8474e01b17a8101d").then(data => {
+      const {
+        user: { contacts }
+      } = data;
+      contacts &&
+        contacts.forEach(c => {
+          c.displayName = generateDisplayName(c);
+        });
+      resolve(data);
+    });
+  });
+};
+
+const generateDisplayName = contact => {
+  if (contact.firstName || contact.lastName) {
+    return `${contact.firstName || ""}${
+      contact.firstName && contact.lastName ? ` ` : ``
+    }${contact.lastName || ""}`;
+  }
+  return contact.email || contact.homePhone || contact.workPhone || "?";
 };
