@@ -10,21 +10,29 @@ export default function EditContactModal({
   onClose
 }) {
   const c = contact || {};
-  const firstName = useFormInput(c.firstName);
-  const lastName = useFormInput(c.lastName);
+  const form = {
+    firstName: useFormInput(c.firstName),
+    lastName: useFormInput(c.lastName),
+    homeEmail: useFormInput(c.homeEmail),
+    workEmail: useFormInput(c.workEmail),
+    homeAddress: useFormInput(c.homeAddress),
+    workAddress: useFormInput(c.workAddress),
+    homePhone: useFormInput(c.homePhone),
+    workPhone: useFormInput(c.workPhone)
+  };
 
   function submit() {
-    const formData = {
-      firstName: firstName.value,
-      lastName: lastName.value
-    };
+    const submitData = {};
+    Object.keys(form).forEach(key => {
+      submitData[key] = form[key].value;
+    });
     if (contact) {
       //edit
-      formData._id = contact._id;
-      updateContact(formData);
+      submitData._id = contact._id;
+      updateContact(submitData);
     } else {
       //create
-      createContact(formData);
+      createContact(submitData);
     }
   }
 
@@ -33,12 +41,32 @@ export default function EditContactModal({
       <span className="EditContactModal">
         <div className="column">
           <h2>Contact Details</h2>
-          <h3> {contact ? `Edit Contact` : `New contact`}</h3> <br />
-          <input type="text" placeholder="First" {...firstName} />
-          <input type="text" placeholder="Last" {...lastName} />
+          <h3> {contact ? `Edit Contact` : `New Contact`}</h3> <br />
+          {/* <div className="Modal-nameForm">
+            <input type="text" placeholder="First" {...form.firstName} />
+            <input type="text" placeholder="Last" {...form.lastName} />
+          </div> */}
+          <div className="Modal-form">
+            {Object.keys(form).map((field, i) => (
+              <input
+                key={i}
+                type="text"
+                placeholder={uncamel(field)}
+                {...form[field]}
+              />
+            ))}
+          </div>
         </div>
         <div className="column">
           <h2>Social</h2>
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
           <br />
           <br />
           <br />
@@ -69,3 +97,6 @@ export default function EditContactModal({
     </Modal>
   );
 }
+
+const uncamel = str =>
+  str.replace(/([A-Z])/g, " $1").replace(/^./, str => str.toUpperCase());
