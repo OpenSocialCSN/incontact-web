@@ -24,7 +24,7 @@ export const executeQuery = query => {
 export const getUserById = userId => {
   const query = `
     query GetUserById {
-      user(_id:"5c3cd65a8474e01b17a8101d"){
+      user(_id:"${userId}"){
         _id
         createdAt
         firstName
@@ -38,6 +38,21 @@ export const getUserById = userId => {
           workPhone
           homePhone
         }
+      }
+    }`;
+
+  return executeQuery(query).catch(errors => console.log("errs:", errors));
+};
+
+export const createContact = contact => {
+  if (!contact) throw new Error("Bad arg @ createContact:", contact);
+  const userId = "5c3cd65a8474e01b17a8101d"; //TODO:
+
+  const args = `userId:"${userId}", ${generateArgs(contact)}`;
+  const query = `
+    mutation CreateContact {
+      createContact(${args}){
+        _id
       }
     }`;
 
@@ -71,6 +86,5 @@ const generateArgs = updateObject => {
     args += `${key}:${value}${i < keys.length - 1 ? `, ` : ``}`;
   });
 
-  console.log("args:", args);
   return args;
 };

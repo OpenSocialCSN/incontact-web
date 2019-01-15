@@ -3,7 +3,7 @@ import React from "react";
 import "./styles/Modals.scss";
 import { Modal } from "../../reusable";
 import { useFormInput } from "../../../helpers/customHooks";
-import { updateContact } from "../../../helpers/graphql";
+import { createContact, updateContact } from "../../../helpers/graphql";
 
 export default function EditContactModal({
   context: { contact } = {},
@@ -13,13 +13,19 @@ export default function EditContactModal({
   const firstName = useFormInput(c.firstName);
   const lastName = useFormInput(c.lastName);
 
-  function update() {
-    const updateData = {
-      _id: contact._id,
+  function submit() {
+    const formData = {
       firstName: firstName.value,
       lastName: lastName.value
     };
-    updateContact(updateData);
+    if (contact) {
+      //edit
+      formData._id = contact._id;
+      updateContact(formData);
+    } else {
+      //create
+      createContact(formData);
+    }
   }
 
   return (
@@ -49,7 +55,7 @@ export default function EditContactModal({
             <button
               onClick={() => {
                 onClose();
-                update(firstName, lastName);
+                submit();
               }}
             >
               SAVE
