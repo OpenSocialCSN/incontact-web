@@ -4,7 +4,6 @@ import { MdEdit, MdMoreVert } from "react-icons/md";
 import "./styles/ContactInfo.scss";
 import phone from "../../../assets/images/phone.png";
 import email from "../../../assets/images/email.png";
-import socialImages from "../../../assets/images/social";
 import { Avatar, Dropdown } from "../../reusable";
 import { deleteContactById } from "../../../helpers/graphql";
 

@@ -38,6 +38,7 @@ export const getUserById = userId => {
           lastName
           workPhone
           homePhone
+          imageUrl
         }
       }
     }`;
