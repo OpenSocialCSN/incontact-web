@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { MdFilterList } from "react-icons/md";
 
 import { Dropdown } from "../../reusable";
@@ -10,6 +10,10 @@ export default function ContactList({
   selectedContactId,
   setModal
 }) {
+  const [filteredContacts, setFilteredContacts] = useState(contacts);
+  const handleSearch = e =>
+    setFilteredContacts(filterContacts(e.target.value, contacts));
+
   return (
     <div className="ContactList column">
       <span className="ContactList-titleRow">
@@ -39,12 +43,13 @@ export default function ContactList({
         </button>
         <input
           type="text"
-          placeholder="Search... TODO"
+          placeholder="Search..."
+          onChange={handleSearch}
           style={{ backgroundImage: MdFilterList }}
         />
       </span>
       <ScrollableContactList
-        contacts={contacts}
+        contacts={filteredContacts}
         selectContact={selectContact}
         selectedContactId={selectedContactId}
       />
@@ -71,3 +76,8 @@ const ScrollableContactList = ({
     </div>
   </div>
 );
+
+const filterContacts = (query, contacts) =>
+  contacts.filter(c =>
+    c.displayName.toUpperCase().includes(query.toUpperCase())
+  );
