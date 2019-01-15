@@ -17,7 +17,6 @@ const establishGoogleEndpoints = function(expressApp, graphQlResolvers) {
     console.log(`found ${connections.length} connections`);
     // console.log("connections:", connections);
 
-    res.send(connections);
     connections.forEach(async c => {
       const { social } = c;
       delete c.social;
@@ -29,9 +28,17 @@ const establishGoogleEndpoints = function(expressApp, graphQlResolvers) {
       }
     });
 
-    // res.statusCode = 302;
-    // res.setHeader("Location", "http://localhost:3000");
-    // res.end();
+    res.statusCode = 302;
+    res.setHeader(
+      "Location",
+      process.env.NODE_ENV === "production"
+        ? `https://incontactme.herokuapp.com`
+        : `http://localhost:3000`
+    );
+
+    // res.send(connections);
+
+    res.end();
   });
 };
 

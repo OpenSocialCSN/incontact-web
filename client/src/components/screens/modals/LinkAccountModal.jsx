@@ -42,7 +42,7 @@ export default function LinkAccountModal({
 }
 
 const CLICK_HANDLERS = {
-  google: () => window.open(`${BASE_URI}integrations/google/authUrl`, "_blank")
+  google: () => window.open(`${BASE_URI}integrations/google/authUrl`, "_self")
 };
 
 const BASE_URI = window.location.href.includes("localhost")
