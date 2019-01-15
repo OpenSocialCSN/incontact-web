@@ -1,6 +1,6 @@
 import { ObjectId } from "mongodb";
 
-export const getResolvers = ({ Users, Contacts }) => ({
+export const getResolvers = ({ Users, Contacts, Social }) => ({
   Query: {
     user: async (root, { _id }) => {
       return prepare(await Users.findOne(ObjectId(_id)));
@@ -23,6 +23,10 @@ export const getResolvers = ({ Users, Contacts }) => ({
   Contact: {
     user: async ({ userId }) => {
       return prepare(await Users.findOne(ObjectId(userId)));
+    },
+    social: async ({ _id }) => {
+      const res = await Social.findOne(ObjectId(_id));
+      return res ? prepare(res) : null;
     }
   },
   Mutation: {
@@ -42,10 +46,23 @@ export const getResolvers = ({ Users, Contacts }) => ({
       const updated = await Contacts.findOne(ObjectId(query._id));
       return updated;
     },
+    addSocial: async (root, args) => {
+      const _id = ObjectId(args.contactId);
+      const existing = await Social.findOne(_id);
+      args._id = _id;
+      delete args.contactId;
+      if (existing) {
+        await Social.update({ _id }, { $set: args });
+        return await Social.findOne(_id);
+      } else {
+        const res = await Social.insert(args);
+        return prepare(res.ops[0]);
+      }
+    },
     deleteContact: async (root, args) => {
-      let x = await Contacts.deleteOne({ _id: ObjectId(args._id) });
+      const res = await Contacts.deleteOne({ _id: ObjectId(args._id) });
       // return delete count
-      return x.result.n;
+      return res.result.n;
     }
   }
 });

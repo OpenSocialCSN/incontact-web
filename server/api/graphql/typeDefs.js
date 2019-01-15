@@ -17,6 +17,15 @@ type User {
   contacts(skip:Int, first:Int): [Contact]
 }
 
+type Social {
+  _id: ID
+  linkedin:String
+  twitter:String
+  facebook:String
+  instagram:String
+  skype:String
+}
+
 type Contact {
   _id: ID
   userId: ID!
@@ -34,16 +43,25 @@ type Contact {
   workPhone:String
   homePhone:String
   imageUrl:String
+  note:String
+  birthday:String
+  social:Social
 }
 
 type Mutation {
   createUser(firstName: String, lastName: String, email: String): User
   createContact(userId: ID!, firstName: String, lastName: String, homeEmail: String,
     workEmail: String, title: String, organization:String, workAddress:String, homeAddress:String,
-    workPhone:String, homePhone:String, imageUrl:String): Contact
+    workPhone:String, homePhone:String, imageUrl:String, birthday:String, note:String): Contact
   updateContact(_id: ID!, firstName: String, lastName: String, homeEmail: String,
     workEmail: String, title: String, organization:String, workAddress:String, 
-    homeAddress:String, workPhone:String, homePhone:String, imageUrl:String): Contact
+    homeAddress:String, workPhone:String, homePhone:String, imageUrl:String, birthday:String, note:String): Contact
+  addSocial(contactId:ID!,
+    linkedin:String,
+    twitter:String,
+    facebook:String,
+    instagram:String,
+    skype:String): Social
   deleteContact(_id:ID!): Int
 }
 

@@ -18,7 +18,8 @@ async function establishGraphQL(app) {
     const db = await MongoClient.connect(dbUrl);
     const mongoCollections = {
       Users: db.collection("users"),
-      Contacts: db.collection("contacts")
+      Contacts: db.collection("contacts"),
+      Social: db.collection("social")
     };
     const resolvers = getResolvers(mongoCollections);
     const schema = makeExecutableSchema({
