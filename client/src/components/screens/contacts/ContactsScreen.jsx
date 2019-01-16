@@ -1,8 +1,9 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import "./styles/ContactsScreen.scss";
 import ContactList from "./ContactList";
 import ContactInfo from "./ContactInfo";
+import { usePrevious } from "../../../helpers/customHooks";
 
 export default function ContactsScreen({ contacts, setModal }) {
   if (!contacts) return "loading..";
@@ -36,14 +37,6 @@ export default function ContactsScreen({ contacts, setModal }) {
       <ContactInfo contact={selectedContact} setModal={setModal} />
     </div>
   );
-}
-
-function usePrevious(value) {
-  const ref = useRef();
-  useEffect(() => {
-    ref.current = value;
-  });
-  return ref.current;
 }
 
 const sortContacts = contactsArr =>

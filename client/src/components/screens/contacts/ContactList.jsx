@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { MdFilterList } from "react-icons/md";
 
 import { Dropdown } from "../../reusable";
@@ -11,8 +11,15 @@ export default function ContactList({
   setModal
 }) {
   const [filteredContacts, setFilteredContacts] = useState(contacts);
-  const handleSearch = e =>
-    setFilteredContacts(filterContacts(e.target.value, contacts));
+  const [query, setQuery] = useState("");
+
+  useEffect(
+    // re-filter anytime query, or contacts changes
+    () => {
+      setFilteredContacts(filterContacts(query, contacts));
+    },
+    [query, contacts]
+  );
 
   return (
     <div className="ContactList column">
@@ -44,7 +51,7 @@ export default function ContactList({
         <input
           type="text"
           placeholder="Search..."
-          onChange={handleSearch}
+          onChange={e => setQuery(e.target.value)}
           style={{ backgroundImage: MdFilterList }}
         />
       </span>

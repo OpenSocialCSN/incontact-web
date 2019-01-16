@@ -12,28 +12,25 @@ export default function App() {
   const [route, navigate] = useState("Contacts");
   const [modal, setModal] = useState({ screen: null, context: null });
   const [user, setUser] = useState(null);
+  const [contacts, setContacts] = useState(null);
 
   const updateData = () => {
-    loadData().then(data => {
-      setUser(data.user);
+    loadData().then(({ user }) => {
+      const { contacts } = user;
+      delete user.contacts;
+      setUser(user);
+      setContacts(contacts);
     });
   };
 
-  useEffect(
-    () => {
-      updateData();
-      // return () => {}; // unsubscribe and stuff here
-    },
-    [route]
-  ); // Only re-run the effect if route changes
+  // Only re-run the effect if route changes
+  useEffect(updateData, [route]);
 
   const closeModal = () => {
     setModal({ screen: null, context: null });
     // temporary: when user is done with editing modal, reload all
     // fututre: add mobx, update individual contacts, users on update actions
-    setTimeout(() => {
-      updateData();
-    }, 400);
+    updateData();
   };
 
   return (
@@ -41,10 +38,7 @@ export default function App() {
       <SideMenu navigate={navigate} route={route} />
       <div className="App-content">
         {route === "Contacts" && (
-          <ContactsScreen
-            contacts={user ? user.contacts : null}
-            setModal={setModal}
-          />
+          <ContactsScreen contacts={contacts} setModal={setModal} />
         )}
         {route === "Notifications" && <h1>NOTIFICATIONS SCREEN</h1>}
         {route === "History" && <ServerCall />}

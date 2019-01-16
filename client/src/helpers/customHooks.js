@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export function useFormInput(initialValue) {
   const [value, setValue] = useState(initialValue);
@@ -10,4 +10,12 @@ export function useFormInput(initialValue) {
     value: value || ``,
     onChange: handleChange
   };
+}
+
+export function usePrevious(value) {
+  const ref = useRef();
+  useEffect(() => {
+    ref.current = value;
+  });
+  return ref.current;
 }

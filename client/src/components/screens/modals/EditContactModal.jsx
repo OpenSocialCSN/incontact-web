@@ -29,10 +29,10 @@ export default function EditContactModal({
     if (contact) {
       //edit
       submitData._id = contact._id;
-      updateContact(submitData);
+      updateContact(submitData).then(() => onClose());
     } else {
       //create
-      createContact(submitData);
+      createContact(submitData).then(() => onClose());
     }
   }
 
@@ -80,14 +80,7 @@ export default function EditContactModal({
           <br />
           <br />
           <span className="EditContactModal-saveBtns">
-            <button
-              onClick={() => {
-                onClose();
-                submit();
-              }}
-            >
-              SAVE
-            </button>
+            <button onClick={submit}>SAVE</button>
             <button className="btn-secondary" onClick={onClose}>
               CANCEL
             </button>
