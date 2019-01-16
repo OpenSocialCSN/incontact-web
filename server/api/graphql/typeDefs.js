@@ -65,6 +65,7 @@ type Mutation {
     skype:String,
     webpage:String): Social
   deleteContact(_id:ID!): Int
+  deleteAllContacts(confirm:Boolean): Int
 }
 
 schema {

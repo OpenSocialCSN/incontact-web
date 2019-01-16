@@ -63,6 +63,10 @@ export const getResolvers = ({ Users, Contacts, Social }) => ({
       const res = await Contacts.deleteOne({ _id: ObjectId(args._id) });
       // return delete count
       return res.result.n;
+    },
+    deleteAllContacts: async () => {
+      const res = await Contacts.remove({});
+      return res.result.n;
     }
   }
 });
