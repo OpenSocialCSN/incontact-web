@@ -35,7 +35,7 @@ export default function App() {
 
   return (
     <div className="App">
-      <SideMenu navigate={navigate} route={route} />
+      <SideMenu navigate={navigate} route={route} user={user} />
       <div className="App-content">
         {route === "Contacts" && (
           <ContactsScreen contacts={contacts} setModal={setModal} />

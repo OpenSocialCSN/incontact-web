@@ -38,6 +38,8 @@ export const getUserById = userId => {
           lastName
           workPhone
           homePhone
+          homeAddress
+          workAddress
           imageUrl
           social {
             linkedin

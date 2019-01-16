@@ -4,6 +4,7 @@ import { MdEdit, MdMoreVert } from "react-icons/md";
 import "./styles/ContactInfo.scss";
 import phoneIcon from "../../../assets/images/phone.png";
 import emailIcon from "../../../assets/images/email.png";
+import addressIcon from "../../../assets/images/address.png";
 import socialIcons from "../../../assets/images/social";
 import { Avatar, Dropdown } from "../../reusable";
 import { deleteContactById } from "../../../helpers/graphql";
@@ -110,6 +111,20 @@ const ContactDetails = ({ contact = {} }) => {
           icon={phoneIcon}
           label="WORK"
           value={contact.workPhone}
+        />
+      )}
+      {contact.homeAddress && (
+        <ContactDetailItem
+          icon={addressIcon}
+          label="HOME"
+          value={contact.homeAddress}
+        />
+      )}
+      {contact.workAddress && (
+        <ContactDetailItem
+          icon={addressIcon}
+          label="WORK"
+          value={contact.workAddress}
         />
       )}
       {social &&
