@@ -59,17 +59,25 @@ export default function App() {
         {route === "Notifications" && <h1>NOTIFICATIONS SCREEN</h1>}
         {route === "History" && <ServerCall />}
       </div>
-      {modal.screen && <AppModal modal={modal} closeModal={closeModal} />}
+      {modal.screen && (
+        <AppModal modal={modal} closeModal={closeModal} userId={user._id} />
+      )}
     </div>
   );
 }
 
-const AppModal = ({ modal, closeModal }) => {
+const AppModal = ({ modal, closeModal, userId }) => {
+  const props = {
+    onClose: closeModal,
+    context: modal.context,
+    userId
+  };
+
   switch (modal.screen) {
     case "EditContact":
-      return <EditContactModal onClose={closeModal} context={modal.context} />;
+      return <EditContactModal {...props} />;
     case "LinkAccount":
-      return <LinkAccountModal onClose={closeModal} context={modal.context} />;
+      return <LinkAccountModal {...props} />;
     default:
       throw new Error("Unrecognized modal");
   }

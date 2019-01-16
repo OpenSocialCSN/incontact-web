@@ -6,13 +6,14 @@ import LinkAccount from "../../reusable/LinkAccount";
 
 export default function LinkAccountModal({
   context: { someProp } = {},
+  userId,
   onClose
 }) {
   return (
     <Modal onClose={onClose}>
       <div className="LinkAccountModal modalContent">
         <h2>Link Account</h2>
-        <LinkAccount />
+        <LinkAccount userId={userId} />
       </div>
     </Modal>
   );

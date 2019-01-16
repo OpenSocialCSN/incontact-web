@@ -71,10 +71,8 @@ export const createUser = (email, password) => {
   return executeQuery(query);
 };
 
-export const createContact = contact => {
+export const createContact = (contact, userId) => {
   if (!contact) throw new Error("Bad arg @ createContact:", contact);
-  const userId = "5c3cd65a8474e01b17a8101d"; //TODO:
-
   const args = `userId:"${userId}", ${generateArgs(contact)}`;
   const query = `
     mutation CreateContact {

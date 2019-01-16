@@ -7,6 +7,7 @@ import { createContact, updateContact } from "../../../helpers/graphql";
 
 export default function EditContactModal({
   context: { contact } = {},
+  userId,
   onClose
 }) {
   const c = contact || {};
@@ -29,10 +30,10 @@ export default function EditContactModal({
     if (contact) {
       //edit
       submitData._id = contact._id;
-      updateContact(submitData).then(() => onClose());
+      updateContact(submitData, userId).then(() => onClose());
     } else {
       //create
-      createContact(submitData).then(() => onClose());
+      createContact(submitData, userId).then(() => onClose());
     }
   };
 
