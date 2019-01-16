@@ -16,9 +16,9 @@ export default function Register({ setUserId }) {
   return (
     <div className="Login">
       <h1>Temp Register</h1>
-      <input type="text" {...email} />
+      <input type="text" placeholder="Email" {...email} />
       <br />
-      <input type="password" {...password} />
+      <input type="password" placeholder="Password" {...password} />
       <br />
       <button onClick={submit}>Register</button>
     </div>
