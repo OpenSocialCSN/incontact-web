@@ -1,5 +1,3 @@
-import "babel-core/register";
-import "babel-polyfill";
 import express from "express";
 
 import establishIntegrationEndpoints from "./integrations";

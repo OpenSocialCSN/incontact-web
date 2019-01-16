@@ -8,9 +8,8 @@ import cors from "cors";
 
 import establishEndpoints from "./api/endpoints";
 
-const port = process.env.PORT || 5000;
-
-async function setupListeners() {
+async function initializeServer() {
+  const port = process.env.PORT || 5000;
   const app = express();
 
   app.use(cors());
@@ -34,4 +33,4 @@ async function setupListeners() {
   app.listen(port, () => console.log(`Listening on port ${port}`));
 }
 
-setupListeners();
+initializeServer();
