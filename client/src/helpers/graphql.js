@@ -39,6 +39,14 @@ export const getUserById = userId => {
           workPhone
           homePhone
           imageUrl
+          social {
+            linkedin
+            facebook
+            skype
+            instagram
+            twitter
+            webpage
+          }
         }
       }
     }`;
