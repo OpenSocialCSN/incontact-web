@@ -4,9 +4,11 @@ import "./styles/ContactsScreen.scss";
 import ContactList from "./ContactList";
 import ContactInfo from "./ContactInfo";
 import { usePrevious } from "../../../helpers/customHooks";
+import { Spinner } from "../../reusable";
 
 export default function ContactsScreen({ contacts, setModal }) {
-  if (!contacts) return "loading..";
+  if (!contacts) return <LoadingContacts />;
+
   const [selectedContactId, selectContact] = useState(
     contacts.length > 0 ? contacts[0]._id : null
   );
@@ -50,3 +52,9 @@ const sortContacts = contactsArr =>
     }
     return 0;
   });
+
+const LoadingContacts = () => (
+  <div className="ContactsScreen">
+    <Spinner />
+  </div>
+);
