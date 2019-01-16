@@ -9,7 +9,8 @@ export default function ContactList({
   contacts,
   selectContact,
   selectedContactId,
-  setModal
+  setModal,
+  user
 }) {
   const [filteredContacts, setFilteredContacts] = useState(contacts);
   const [query, setQuery] = useState("");
@@ -65,7 +66,7 @@ export default function ContactList({
           />
         </React.Fragment>
       ) : (
-        <GetStarted />
+        <GetStarted user={user} />
       )}
     </div>
   );
@@ -91,10 +92,10 @@ const ScrollableContactList = ({
   </div>
 );
 
-const GetStarted = () => (
+const GetStarted = ({ user }) => (
   <div>
     <h2>Import your contacts to get started</h2>
-    <LinkAccount />
+    <LinkAccount userId={user._id} />
   </div>
 );
 

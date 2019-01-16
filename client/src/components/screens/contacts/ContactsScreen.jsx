@@ -6,7 +6,7 @@ import ContactInfo from "./ContactInfo";
 import { usePrevious } from "../../../helpers/customHooks";
 import { Spinner } from "../../reusable";
 
-export default function ContactsScreen({ contacts, setModal }) {
+export default function ContactsScreen({ contacts, setModal, user }) {
   if (!contacts) return <LoadingContacts />;
 
   const [selectedContactId, selectContact] = useState(
@@ -35,6 +35,7 @@ export default function ContactsScreen({ contacts, setModal }) {
         selectContact={selectContact}
         selectedContactId={selectedContactId}
         setModal={setModal}
+        user={user}
       />
       <ContactInfo contact={selectedContact} setModal={setModal} />
     </div>

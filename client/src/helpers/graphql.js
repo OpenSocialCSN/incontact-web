@@ -18,7 +18,8 @@ export const executeQuery = query => {
           resolve(res.data);
         }
       });
-    });
+    })
+    .catch(errors => console.log("errs:", errors));
 };
 
 export const getUserById = userId => {
@@ -53,7 +54,21 @@ export const getUserById = userId => {
       }
     }`;
 
-  return executeQuery(query).catch(errors => console.log("errs:", errors));
+  return executeQuery(query);
+};
+
+export const createUser = (email, password) => {
+  if (!email) throw new Error("Bad args @ createUser");
+
+  const args = `email:"${email}"`;
+  const query = `
+    mutation CreateUser {
+      createUser(${args}){
+        _id
+      }
+    }`;
+
+  return executeQuery(query);
 };
 
 export const createContact = contact => {
@@ -68,7 +83,7 @@ export const createContact = contact => {
       }
     }`;
 
-  return executeQuery(query).catch(errors => console.log("errs:", errors));
+  return executeQuery(query);
 };
 
 export const updateContact = contact => {
@@ -83,7 +98,7 @@ export const updateContact = contact => {
       }
     }`;
 
-  return executeQuery(query).catch(errors => console.log("errs:", errors));
+  return executeQuery(query);
 };
 
 export const deleteContactById = contactId => {
@@ -94,7 +109,7 @@ export const deleteContactById = contactId => {
       deleteContact(_id:"${contactId}")
     }`;
 
-  return executeQuery(query).catch(errors => console.log("errs:", errors));
+  return executeQuery(query);
 };
 
 const generateArgs = updateObject => {

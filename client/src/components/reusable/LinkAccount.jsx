@@ -2,12 +2,12 @@ import React from "react";
 
 import socialIcons from "../../assets/images/social";
 
-export default function LinkAccount() {
+export default function LinkAccount({ userId }) {
   return (
     <div className="LinkAccount">
       <img
         src={socialIcons.google}
-        onClick={CLICK_HANDLERS.google}
+        onClick={() => CLICK_HANDLERS.google(userId)}
         alt="Google icon"
       />
       <ul>
@@ -23,18 +23,16 @@ export default function LinkAccount() {
           from your account.{" "}
         </li>
       </ul>
-      <br />
-      {/* <br /> TODO: user signup/user management */}
-      {/* <h2>INTEGRATIONS TODO</h2>
-      {Object.keys(socialIcons).map((service, i) => (
-        <img key={i} src={socialIcons[service]} alt="" />
-      ))} */}
     </div>
   );
 }
 
 const CLICK_HANDLERS = {
-  google: () => window.open(`${BASE_URI}integrations/google/authUrl`, "_self")
+  google: userId =>
+    window.open(
+      `${BASE_URI}integrations/google/authUrl?userId=${userId}`,
+      "_self"
+    )
 };
 
 const BASE_URI = window.location.href.includes("localhost")
