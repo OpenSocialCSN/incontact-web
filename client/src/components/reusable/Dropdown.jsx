@@ -1,5 +1,7 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
+
 import "./styles/Dropdown.scss";
+import { useOnClickOutside } from "../../helpers/customHooks";
 
 export default function DropdownButton({
   children,
@@ -41,23 +43,4 @@ export default function DropdownButton({
       )}
     </span>
   );
-}
-
-export function useOnClickOutside(ref, handler) {
-  useEffect(() => {
-    const listener = event => {
-      if (!ref.current || ref.current.contains(event.target)) {
-        return;
-      }
-      handler(event);
-    };
-
-    document.addEventListener("mousedown", listener);
-    document.addEventListener("touchstart", listener);
-
-    return () => {
-      document.removeEventListener("mousedown", listener);
-      document.removeEventListener("touchstart", listener);
-    };
-  }, []); // Empty array ensures that effect is only run on mount and unmount
 }

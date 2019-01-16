@@ -5,7 +5,6 @@ import ServerCall from "./components/screens/ServerCall";
 import SideMenu from "./SideMenu";
 import EditContactModal from "./components/screens/modals/EditContactModal";
 import LinkAccountModal from "./components/screens/modals/LinkAccountModal";
-
 import { getUserById } from "./helpers/graphql";
 
 export default function App() {
@@ -23,15 +22,15 @@ export default function App() {
     });
   };
 
-  // Only re-run the effect if route changes
-  useEffect(updateData, [route]);
-
   const closeModal = () => {
     setModal({ screen: null, context: null });
     // temporary: when user is done with editing modal, reload all
     // fututre: add mobx, update individual contacts, users on update actions
     updateData();
   };
+
+  // Only re-run the effect if route changes
+  useEffect(updateData, [route]);
 
   return (
     <div className="App">
@@ -48,7 +47,7 @@ export default function App() {
   );
 }
 
-const AppModal = function({ modal, closeModal }) {
+const AppModal = ({ modal, closeModal }) => {
   switch (modal.screen) {
     case "EditContact":
       return <EditContactModal onClose={closeModal} context={modal.context} />;

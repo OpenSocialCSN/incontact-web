@@ -21,7 +21,7 @@ export default function EditContactModal({
     workPhone: useFormInput(c.workPhone)
   };
 
-  function submit() {
+  const submit = () => {
     const submitData = {};
     Object.keys(form).forEach(key => {
       submitData[key] = form[key].value;
@@ -34,7 +34,7 @@ export default function EditContactModal({
       //create
       createContact(submitData).then(() => onClose());
     }
-  }
+  };
 
   return (
     <Modal onClose={onClose}>
@@ -59,26 +59,9 @@ export default function EditContactModal({
         </div>
         <div className="column">
           <h2>Social</h2>
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
+          {Array.from({ length: 20 }, (_, idx) => `${++idx}`).map(i => (
+            <br key={i} />
+          ))}
           <span className="EditContactModal-saveBtns">
             <button onClick={submit}>SAVE</button>
             <button className="btn-secondary" onClick={onClose}>

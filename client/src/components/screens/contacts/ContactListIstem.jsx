@@ -21,7 +21,7 @@ export default function ContactListItem({ contact, selectContact, isActive }) {
   );
 }
 
-const ContactIcons = function({ contact }) {
+const ContactIcons = ({ contact }) => {
   const hasEmail = contact.workEmail || contact.homeEmail;
   const hasPhone = contact.workPhone || contact.homePhone;
   let iconCount = (hasEmail ? 1 : 0) + (hasPhone ? 1 : 0);

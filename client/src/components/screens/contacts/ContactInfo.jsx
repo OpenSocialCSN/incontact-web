@@ -58,17 +58,9 @@ export default function ContactInfo({ contact = {}, setModal }) {
             <div className="card">Add note</div>
             <div className="card">
               <h2>Activity</h2>
-              <br />
-              <br />
-              <br />
-              <br />
-              <br />
-              <br />
-              <br />
-              <br />
-              <br />
-              <br />
-              <br />
+              {Array.from({ length: 11 }, (_, idx) => `${++idx}`).map(i => (
+                <br key={i} />
+              ))}
             </div>
           </div>
           <div className="column">
