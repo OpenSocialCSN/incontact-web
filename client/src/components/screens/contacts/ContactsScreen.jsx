@@ -8,7 +8,7 @@ import { usePrevious } from "../../../helpers/customHooks";
 export default function ContactsScreen({ contacts, setModal }) {
   if (!contacts) return "loading..";
   const [selectedContactId, selectContact] = useState(
-    contacts ? contacts[0]._id : null
+    contacts.length > 0 ? contacts[0]._id : null
   );
 
   contacts = sortContacts(contacts);
@@ -16,7 +16,7 @@ export default function ContactsScreen({ contacts, setModal }) {
   const prevContacts = usePrevious(contacts);
   useEffect(
     () => {
-      if (contacts && !prevContacts) {
+      if (contacts[0] && !prevContacts) {
         // initial load complete
         selectContact(contacts[0]._id);
       }

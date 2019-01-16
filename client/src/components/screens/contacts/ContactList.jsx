@@ -3,6 +3,7 @@ import { MdFilterList } from "react-icons/md";
 
 import { Dropdown } from "../../reusable";
 import ContactListItem from "./ContactListIstem";
+import LinkAccount from "../../reusable/LinkAccount";
 
 export default function ContactList({
   contacts,
@@ -44,22 +45,28 @@ export default function ContactList({
           <span className="ContactList-newContactBtn">+</span>
         </Dropdown>
       </span>
-      <span className="ContactList-titleRow">
-        <button>
-          <MdFilterList /> Filter
-        </button>
-        <input
-          type="text"
-          placeholder="Search..."
-          onChange={e => setQuery(e.target.value)}
-          style={{ backgroundImage: MdFilterList }}
-        />
-      </span>
-      <ScrollableContactList
-        contacts={filteredContacts}
-        selectContact={selectContact}
-        selectedContactId={selectedContactId}
-      />
+      {contacts[0] ? (
+        <React.Fragment>
+          <span className="ContactList-titleRow">
+            <button>
+              <MdFilterList /> Filter
+            </button>
+            <input
+              type="text"
+              placeholder="Search..."
+              onChange={e => setQuery(e.target.value)}
+              style={{ backgroundImage: MdFilterList }}
+            />
+          </span>
+          <ScrollableContactList
+            contacts={filteredContacts}
+            selectContact={selectContact}
+            selectedContactId={selectedContactId}
+          />
+        </React.Fragment>
+      ) : (
+        <GetStarted />
+      )}
     </div>
   );
 }
@@ -81,6 +88,13 @@ const ScrollableContactList = ({
           />
         ))}
     </div>
+  </div>
+);
+
+const GetStarted = () => (
+  <div>
+    <h2>Import your contacts to get started</h2>
+    <LinkAccount />
   </div>
 );
 

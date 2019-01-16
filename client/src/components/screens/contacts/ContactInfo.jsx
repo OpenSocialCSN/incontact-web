@@ -9,8 +9,8 @@ import socialIcons from "../../../assets/images/social";
 import { Avatar, Dropdown } from "../../reusable";
 import { deleteContactById } from "../../../helpers/graphql";
 
-export default function ContactInfo({ contact = {}, setModal }) {
-  return (
+export default function ContactInfo({ contact, setModal }) {
+  return contact ? (
     <div className="ContactInfo column">
       <div className="ContactInfo-container">
         <div className="ContactListItem card">
@@ -69,6 +69,8 @@ export default function ContactInfo({ contact = {}, setModal }) {
         </div>
       </div>
     </div>
+  ) : (
+    <NoContactSelected />
   );
 }
 
@@ -161,3 +163,9 @@ const ContactDetailItem = ({ icon, label, value }) => {
 const Icon = ({ src }) => <img src={src} alt="icon" style={{ height: 25 }} />;
 
 const trimHttpFromLink = link => link.replace(/(http)s?:\/\/(www\.)?/, "");
+
+const NoContactSelected = () => (
+  <div className="ContactInfo column">
+    <div className="ContactInfo-container" />
+  </div>
+);
