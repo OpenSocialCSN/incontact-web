@@ -41,10 +41,15 @@ export async function getConnections(tokens) {
     // pageSize: 10
   });
 
-  // connections.forEach(c => {
-  //   Object.keys(c).map(key => console.log(key + ":\n", c[key]));
-  // });
-  return connections.map(c => translateToIncontact(c));
+  return connections.map(c => {
+    try {
+      c = translateToIncontact(c);
+    } catch (e) {
+      console.log("translation err:", e);
+      c = null;
+    }
+    return c;
+  });
 }
 
 const translateToIncontact = googleConnection => {
