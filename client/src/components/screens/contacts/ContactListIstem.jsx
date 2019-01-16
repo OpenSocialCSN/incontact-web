@@ -28,8 +28,10 @@ const ContactIcons = function({ contact }) {
   const socialKeys = contact.social ? Object.keys(contact.social) : [];
   const socialIconJsx = [];
   for (let i = 0; i < socialKeys.length && iconCount < 4; i++) {
-    iconCount++;
-    socialIconJsx.push(<Icon key={i} src={socialImages[socialKeys[i]]} />);
+    if (contact.social[socialKeys[i]]) {
+      iconCount++;
+      socialIconJsx.push(<Icon key={i} src={socialImages[socialKeys[i]]} />);
+    }
   }
   return (
     <span className="ContactListItem-icons">
