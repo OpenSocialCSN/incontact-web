@@ -6,9 +6,9 @@ import {
 } from "react-icons/md";
 
 import logo from "./assets/images/logo-white.png";
-import { Avatar } from "./components/reusable";
+import { Avatar, Dropdown } from "./components/reusable";
 
-export default function SideMenu({ navigate, route }) {
+export default function SideMenu({ navigate, route, setUserId }) {
   return (
     <div className="SideMenu">
       <h1
@@ -35,11 +35,23 @@ export default function SideMenu({ navigate, route }) {
           navigate(ROUTES[0].name);
         }}
       />
-      <Avatar
-        user={{ displayName: "Joe" }}
-        color="#2f80ed"
-        backgroundColor="white"
-      />
+      <span className="SideMenu-avatar">
+        <Dropdown
+          position="top"
+          dropdownItems={[
+            {
+              body: "Logout",
+              onClick: () => setUserId(null)
+            }
+          ]}
+        >
+          <Avatar
+            user={{ displayName: "Joe" }}
+            color="#2f80ed"
+            backgroundColor="white"
+          />
+        </Dropdown>
+      </span>
     </div>
   );
 }

@@ -17,14 +17,20 @@ export default function App() {
   const [user, setUser] = useState(null);
   const [contacts, setContacts] = useState(null);
 
-  const updateData = id => {
-    id = id || userId;
-    loadData(id).then(({ user }) => {
-      const { contacts } = user;
-      delete user.contacts;
-      setUser(user);
-      setContacts(contacts);
-    });
+  const updateData = (id, shouldLogout) => {
+    if (!shouldLogout) {
+      id = id || userId;
+      loadData(id).then(({ user }) => {
+        const { contacts } = user;
+        delete user.contacts;
+        setUser(user);
+        setContacts(contacts);
+      });
+    } else {
+      //logout
+      setUser(null);
+      setContacts(null);
+    }
   };
 
   const closeModal = () => {
@@ -34,24 +40,27 @@ export default function App() {
     updateData();
   };
 
-  if (!userId) {
-    return (
-      <Register
-        setUserId={id => {
-          userId = id;
-          updateData(id);
-          setCache("userId", id);
-        }}
-      />
-    );
-  }
+  const setUserId = id => {
+    userId = id;
+    setCache("userId", id);
+    updateData(id, id ? false : true);
+  };
 
   // Only re-run the effect if route changes
-  useEffect(updateData, [route]);
+  useEffect(() => updateData(userId), [route]);
+
+  if (!userId) {
+    return <Register setUserId={setUserId} />;
+  }
 
   return (
     <div className="App">
-      <SideMenu navigate={navigate} route={route} user={user} />
+      <SideMenu
+        navigate={navigate}
+        route={route}
+        user={user}
+        setUserId={setUserId}
+      />
       <div className="App-content">
         {route === "Contacts" && (
           <ContactsScreen contacts={contacts} setModal={setModal} user={user} />

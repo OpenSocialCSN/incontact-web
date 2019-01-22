@@ -88,10 +88,13 @@ body {
     left: 18px;
     cursor: pointer;
   }
-  .Avatar {
+  .SideMenu-avatar {
     position: absolute;
     bottom: 18px;
     right: 18px;
+    .Dropdown {
+      color: black !important;
+    }
   }
 }
 

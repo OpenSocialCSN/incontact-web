@@ -29,7 +29,6 @@ export default function Register({ setUserId }) {
         <b>Single Single Sign-on Service provided by:</b>
         <a href="https://www.opensocial.me/">
           <img
-            class=""
             src={openSocial}
             width="182"
             height="40"
