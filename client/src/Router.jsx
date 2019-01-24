@@ -1,12 +1,13 @@
 import React from "react";
-import { BrowserRouter } from "react-router-dom";
+import { Router } from "react-router-dom";
 
 import App from "./App";
+import { history } from "./helpers/routerHelper";
 
-export default function Router() {
+export default function() {
   return (
-    <BrowserRouter>
+    <Router history={history}>
       <App />
-    </BrowserRouter>
+    </Router>
   );
 }

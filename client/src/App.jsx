@@ -9,10 +9,14 @@ import LinkAccountModal from "./components/screens/modals/LinkAccountModal";
 import { getUserById } from "./helpers/graphql";
 import { getCache, setCache } from "./helpers/cacheHelper";
 import Register from "./components/screens/auth/Register";
+import { history } from "./helpers/routerHelper";
 
 let userId = getCache("userId");
+if (!userId) {
+  history.push("/Register");
+}
 
-function App({ location }) {
+function App({ location, history }) {
   const [modal, setModal] = useState({ screen: null, context: null });
   const [user, setUser] = useState(null);
   const [contacts, setContacts] = useState(null);
@@ -49,27 +53,25 @@ function App({ location }) {
   // Only re-run the effect if route changes
   useEffect(() => updateData(userId), [location.pathname]);
 
-  if (!userId) {
-    return <Register setUserId={setUserId} />;
-  }
-
   return (
     <div className="App">
-      <SideMenu user={user} setUserId={setUserId} />
-      <div className="App-content">
-        <Route
-          path="/(|Contacts)/" // "/" OR "/Contacts"
-          component={() => (
-            <ContactsScreen
-              contacts={contacts}
-              setModal={setModal}
-              user={user}
-            />
-          )}
-        />
-        <Route path="/Notifications" component={Notifications} />
-        <Route path="/History" component={ServerCall} />
-      </div>
+      <Route
+        path="/Register"
+        component={() => <Register setUserId={setUserId} userId={userId} />}
+      />
+
+      {userId && location.pathname !== "/Register" && (
+        <SideMenu user={user} setUserId={setUserId} />
+      )}
+
+      <Route
+        path="/(|Contacts)/" // "/" OR "/Contacts"
+        component={() => (
+          <ContactsScreen contacts={contacts} setModal={setModal} user={user} />
+        )}
+      />
+      <Route path="/Notifications" component={Notifications} />
+      <Route path="/History" component={ServerCall} />
       {modal.screen && (
         <AppModal modal={modal} closeModal={closeModal} userId={user._id} />
       )}
@@ -79,7 +81,11 @@ function App({ location }) {
 
 export default withRouter(App);
 
-const Notifications = () => <h1>NOTIFICATIONS SCREEN</h1>;
+const Notifications = () => (
+  <span className="App-screen">
+    <h1>NOTIFICATIONS SCREEN</h1>
+  </span>
+);
 
 const AppModal = ({ modal, closeModal, userId }) => {
   const props = {

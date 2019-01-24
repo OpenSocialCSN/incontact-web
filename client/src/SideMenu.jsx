@@ -8,6 +8,7 @@ import { Link, withRouter } from "react-router-dom";
 
 import logo from "./assets/images/logo-white.png";
 import { Avatar, Dropdown } from "./components/reusable";
+import { history } from "./helpers/routerHelper";
 
 function SideMenu({ setUserId, location }) {
   const { pathname } = location;
@@ -42,7 +43,10 @@ function SideMenu({ setUserId, location }) {
           dropdownItems={[
             {
               body: "Logout",
-              onClick: () => setUserId(null)
+              onClick: () => {
+                setUserId(null);
+                history.push("/Register");
+              }
             }
           ]}
         >

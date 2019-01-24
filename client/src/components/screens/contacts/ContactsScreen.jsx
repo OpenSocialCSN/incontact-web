@@ -29,7 +29,7 @@ export default function ContactsScreen({ contacts, setModal, user }) {
   const selectedContact = contacts.find(c => c._id === selectedContactId);
 
   return (
-    <div className="ContactsScreen">
+    <div className="ContactsScreen App-screen">
       <ContactList
         contacts={contacts}
         selectContact={selectContact}

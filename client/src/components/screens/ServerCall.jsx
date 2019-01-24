@@ -35,7 +35,7 @@ export default class ServerCall extends React.Component {
 
   render() {
     return (
-      <div className="ServerCall">
+      <div className="ServerCall App-screen">
         <p>{this.state.response}</p>
         <form onSubmit={this.handleSubmit}>
           <p>

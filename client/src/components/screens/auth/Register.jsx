@@ -1,18 +1,27 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 import "./styles/Login.scss";
 import openSocial from "../../../assets/images/opensocial.png";
 import { useFormInput } from "../../../helpers/customHooks";
 import { createUser } from "../../../helpers/graphql";
+import { history } from "../../../helpers/routerHelper";
 
-export default function Register({ setUserId }) {
+export default function Register({ setUserId, userId }) {
   const email = useFormInput("");
   const password = useFormInput("");
 
   const submit = async () => {
     const { createUser: user } = await createUser(email.value);
     setUserId(user._id);
+    history.push("/Contacts");
   };
+
+  useEffect(
+    () => {
+      if (userId) history.push("/Contacts");
+    },
+    [userId]
+  );
 
   return (
     <div className="Login">
