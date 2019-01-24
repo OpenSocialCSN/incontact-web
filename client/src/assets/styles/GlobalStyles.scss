@@ -60,6 +60,9 @@ body {
     cursor: pointer;
   }
 
+  .SideMenu-routerLink {
+    text-decoration: none;
+  }
   .SideMenuItem {
     @extend %link;
     color: white;

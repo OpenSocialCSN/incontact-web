@@ -4,11 +4,13 @@ import {
   MdNotifications,
   MdSupervisorAccount
 } from "react-icons/md";
+import { Link, withRouter } from "react-router-dom";
 
 import logo from "./assets/images/logo-white.png";
 import { Avatar, Dropdown } from "./components/reusable";
 
-export default function SideMenu({ navigate, route, setUserId }) {
+function SideMenu({ navigate, setUserId, location }) {
+  const { pathname } = location;
   return (
     <div className="SideMenu">
       <h1
@@ -22,8 +24,8 @@ export default function SideMenu({ navigate, route, setUserId }) {
         <SideMenuItem
           key={r.name}
           name={r.name}
-          isActive={r.name === route}
-          onClick={() => navigate(r.name)}
+          isActive={`/${r.name}` === pathname}
+          route={r.name}
           Icon={r.icon}
         />
       ))}
@@ -31,9 +33,7 @@ export default function SideMenu({ navigate, route, setUserId }) {
         src={logo}
         alt="incontact logo"
         className="SideMenu-logo"
-        onClick={() => {
-          navigate(ROUTES[0].name);
-        }}
+        route={ROUTES[0].name}
       />
       <span className="SideMenu-avatar">
         <Dropdown
@@ -56,10 +56,14 @@ export default function SideMenu({ navigate, route, setUserId }) {
   );
 }
 
-const SideMenuItem = ({ name, Icon, isActive, onClick }) => (
-  <div className={`SideMenuItem${isActive ? " active" : ""}`} onClick={onClick}>
-    <Icon /> <span className="SideMenuItem-title">{name}</span>
-  </div>
+export default withRouter(SideMenu);
+
+const SideMenuItem = ({ name, Icon, isActive, route }) => (
+  <Link to={`/${route}`} className="SideMenu-routerLink">
+    <div className={`SideMenuItem${isActive ? " active" : ""}`}>
+      <Icon /> <span className="SideMenuItem-title">{name}</span>
+    </div>
+  </Link>
 );
 
 const ROUTES = [

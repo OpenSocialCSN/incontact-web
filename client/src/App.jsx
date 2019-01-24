@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Route, withRouter } from "react-router-dom";
 
 import ContactsScreen from "./components/screens/contacts/ContactsScreen";
 import ServerCall from "./components/screens/ServerCall";
@@ -11,8 +12,7 @@ import Register from "./components/screens/auth/Register";
 
 let userId = getCache("userId");
 
-export default function App() {
-  const [route, navigate] = useState("Contacts");
+function App({ location }) {
   const [modal, setModal] = useState({ screen: null, context: null });
   const [user, setUser] = useState(null);
   const [contacts, setContacts] = useState(null);
@@ -47,7 +47,7 @@ export default function App() {
   };
 
   // Only re-run the effect if route changes
-  useEffect(() => updateData(userId), [route]);
+  useEffect(() => updateData(userId), [location.pathname]);
 
   if (!userId) {
     return <Register setUserId={setUserId} />;
@@ -55,18 +55,21 @@ export default function App() {
 
   return (
     <div className="App">
-      <SideMenu
-        navigate={navigate}
-        route={route}
-        user={user}
-        setUserId={setUserId}
-      />
+      <SideMenu user={user} setUserId={setUserId} />
       <div className="App-content">
-        {route === "Contacts" && (
-          <ContactsScreen contacts={contacts} setModal={setModal} user={user} />
-        )}
-        {route === "Notifications" && <h1>NOTIFICATIONS SCREEN</h1>}
-        {route === "History" && <ServerCall />}
+        <Route
+          path="/Contacts"
+          exact
+          component={() => (
+            <ContactsScreen
+              contacts={contacts}
+              setModal={setModal}
+              user={user}
+            />
+          )}
+        />
+        <Route path="/Notifications" component={Notifications} />
+        <Route path="/History" component={ServerCall} />
       </div>
       {modal.screen && (
         <AppModal modal={modal} closeModal={closeModal} userId={user._id} />
@@ -74,6 +77,10 @@ export default function App() {
     </div>
   );
 }
+
+export default withRouter(App);
+
+const Notifications = () => <h1>NOTIFICATIONS SCREEN</h1>;
 
 const AppModal = ({ modal, closeModal, userId }) => {
   const props = {
