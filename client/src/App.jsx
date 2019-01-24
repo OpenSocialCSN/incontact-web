@@ -17,9 +17,9 @@ function App({ location }) {
   const [user, setUser] = useState(null);
   const [contacts, setContacts] = useState(null);
 
-  const updateData = (id, shouldLogout) => {
-    if (!shouldLogout) {
-      id = id || userId;
+  const updateData = (id, shouldLogout = false) => {
+    id = id || userId;
+    if (id && !shouldLogout) {
       loadData(id).then(({ user }) => {
         const { contacts } = user;
         delete user.contacts;
@@ -27,7 +27,7 @@ function App({ location }) {
         setContacts(contacts);
       });
     } else {
-      //logout
+      // logout || initial page load w/ no user
       setUser(null);
       setContacts(null);
     }
@@ -58,8 +58,7 @@ function App({ location }) {
       <SideMenu user={user} setUserId={setUserId} />
       <div className="App-content">
         <Route
-          path="/Contacts"
-          exact
+          path="/(|Contacts)/" // "/" OR "/Contacts"
           component={() => (
             <ContactsScreen
               contacts={contacts}

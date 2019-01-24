@@ -9,32 +9,33 @@ import { Link, withRouter } from "react-router-dom";
 import logo from "./assets/images/logo-white.png";
 import { Avatar, Dropdown } from "./components/reusable";
 
-function SideMenu({ navigate, setUserId, location }) {
+function SideMenu({ setUserId, location }) {
   const { pathname } = location;
   return (
     <div className="SideMenu">
-      <h1
-        onClick={() => {
-          navigate(ROUTES[0].name);
-        }}
-      >
-        inContact
-      </h1>
+      <Link to={`/${ROUTES[0].name}`} className="SideMenu-routerLink">
+        <h1>inContact</h1>
+      </Link>
       {ROUTES.map(r => (
         <SideMenuItem
           key={r.name}
           name={r.name}
-          isActive={`/${r.name}` === pathname}
+          isActive={
+            `/${r.name}` === pathname ||
+            (pathname === "/" && r.name === "Contacts")
+          }
           route={r.name}
           Icon={r.icon}
         />
       ))}
-      <img
-        src={logo}
-        alt="incontact logo"
-        className="SideMenu-logo"
-        route={ROUTES[0].name}
-      />
+      <Link to={`/${ROUTES[0].name}`}>
+        <img
+          src={logo}
+          alt="incontact logo"
+          className="SideMenu-logo"
+          route={ROUTES[0].name}
+        />
+      </Link>
       <span className="SideMenu-avatar">
         <Dropdown
           position="top"
