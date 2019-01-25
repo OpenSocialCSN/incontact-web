@@ -67,6 +67,12 @@ export const getResolvers = ({ Users, Contacts, Social }) => ({
     deleteAllContacts: async () => {
       const res = await Contacts.remove({});
       return res.result.n;
+    },
+    clearDatabase: async () => {
+      await Contacts.remove({});
+      await Social.remove({});
+      await Users.remove({});
+      return 200;
     }
   }
 });

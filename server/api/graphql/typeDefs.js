@@ -66,6 +66,7 @@ type Mutation {
     webpage:String): Social
   deleteContact(_id:ID!): Int
   deleteAllContacts(confirm:Boolean): Int
+  clearDatabase(confirm:Boolean): Int
 }
 
 schema {
