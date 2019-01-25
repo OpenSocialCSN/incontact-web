@@ -13,6 +13,11 @@ export const getResolvers = ({ Users, Contacts, Social }) => ({
     }
   },
   User: {
+    accounts: async ({ _id }, { first = 0, skip = 0 }) => {
+      const res = await Users.findOne(ObjectId(_id));
+      const accounts = res && res.accounts ? res.accounts : [];
+      return accounts;
+    },
     contacts: async ({ _id }, { first = 0, skip = 0 }) => {
       return (await Contacts.find({ userId: _id })
         .limit(first)
@@ -33,6 +38,27 @@ export const getResolvers = ({ Users, Contacts, Social }) => ({
     createUser: async (root, args, context, info) => {
       const res = await Users.insertOne(args);
       return prepare(res.ops[0]);
+    },
+    updateUser: async (root, args) => {
+      const query = { _id: ObjectId(args._id) };
+      delete args._id;
+      args.updatedOn = new Date().getTime();
+      await Users.update(query, { $set: args });
+      const updated = await Users.findOne(ObjectId(query._id));
+      return updated;
+    },
+    addUserAccount: async (root, args) => {
+      const _id = ObjectId(args.userId);
+      const user = await Users.findOne(_id);
+      if (user.accounts) {
+        user.accounts.push(args);
+      } else {
+        user.accounts = [args];
+      }
+      const query = { _id: ObjectId(args.userId) };
+      delete args.userId;
+      await Users.update(query, { $set: user });
+      return args;
     },
     createContact: async (root, args) => {
       const res = await Contacts.insert(args);

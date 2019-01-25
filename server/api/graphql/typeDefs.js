@@ -15,6 +15,15 @@ type User {
   lastName: String
   email: String
   contacts(skip:Int, first:Int): [Contact]
+  accounts:[UserAccount]
+}
+
+type UserAccount {
+  serviceName:String
+  accountName:String
+  url:String
+  apiToken:String
+  syncStatus: String
 }
 
 type Social {
@@ -51,9 +60,19 @@ type Contact {
 
 type Mutation {
   createUser(firstName: String, lastName: String, email: String): User
+  updateUser(_id: ID!, 
+    firstName: String, 
+    lastName: String,
+    email: String,
+  ): User
   createContact(userId: ID!, firstName: String, lastName: String, homeEmail: String,
     workEmail: String, title: String, organization:String, workAddress:String, homeAddress:String,
     workPhone:String, homePhone:String, imageUrl:String, birthday:String, note:String): Contact
+  addUserAccount(userId:ID!,
+    serviceName:String,
+    accountName:String,
+    url:String,
+    apiToken:String): UserAccount
   updateContact(_id: ID!, firstName: String, lastName: String, homeEmail: String,
     workEmail: String, title: String, organization:String, workAddress:String, 
     homeAddress:String, workPhone:String, homePhone:String, imageUrl:String, birthday:String, note:String): Contact
