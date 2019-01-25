@@ -40,12 +40,12 @@ class GoogleAuth {
     );
   }
 
-  getAuthUrl(userId) {
+  getAuthUrl(urlState) {
     const scopes = ["https://www.googleapis.com/auth/contacts.readonly"];
     return this.oAuth2Client.generateAuthUrl({
       access_type: "offline",
       scope: scopes.join(" "),
-      state: JSON.stringify({ userId })
+      state: JSON.stringify(urlState)
     });
   }
 

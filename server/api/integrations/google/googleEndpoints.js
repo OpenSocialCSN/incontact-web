@@ -3,7 +3,12 @@ import { getConnections } from "./getConnections";
 
 const establishGoogleEndpoints = function(expressApp, graphQlResolvers) {
   expressApp.get("/integrations/google/authUrl", (req, res) => {
-    const authUrl = authClient.getAuthUrl(req.query.userId);
+    const { userId, userAccountId, forwardingRoute } = req.query;
+    const authUrl = authClient.getAuthUrl({
+      userId,
+      userAccountId,
+      forwardingRoute
+    });
     res.statusCode = 302;
     res.setHeader("Location", authUrl);
     res.end();
@@ -14,9 +19,9 @@ const establishGoogleEndpoints = function(expressApp, graphQlResolvers) {
     const tokens = await authClient.getToken(code);
     const connections = await getConnections(tokens);
     console.log(`found ${connections.length} connections`);
-    // console.log("connections:", connections);
-
-    const { userId } = JSON.parse(req.query.state);
+    let { userId, userAccountId, forwardingRoute } = JSON.parse(
+      req.query.state
+    );
     connections.forEach(async c => {
       const { social } = c;
       delete c.social;
@@ -28,12 +33,19 @@ const establishGoogleEndpoints = function(expressApp, graphQlResolvers) {
       }
     });
 
+    graphQlResolvers.Mutation.updateUserAccount(null, {
+      userId,
+      _id: userAccountId,
+      syncStatus: "SYNCED"
+    });
+
+    forwardingRoute = forwardingRoute || "";
     res.statusCode = 302;
     res.setHeader(
       "Location",
       process.env.NODE_ENV === "production"
-        ? `https://incontactme.herokuapp.com`
-        : `http://localhost:3000`
+        ? `https://incontactme.herokuapp.com/${forwardingRoute}`
+        : `http://localhost:3000/${forwardingRoute}`
     );
 
     // res.send(connections);

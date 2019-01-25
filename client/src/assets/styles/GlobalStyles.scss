@@ -133,6 +133,9 @@ button {
   &.btn-secondary {
     @include setButtonColor(#bdbdbd);
   }
+  &.btn-success {
+    @include setButtonColor(#32d296);
+  }
 }
 
 input {

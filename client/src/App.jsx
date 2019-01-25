@@ -60,10 +60,7 @@ function App({ location, history }) {
         path="/Register"
         component={() => <Register setUserId={setUserId} userId={userId} />}
       />
-      <Route
-        path="/Onboarding"
-        component={() => <Onboarding userId={userId} />}
-      />
+      <Route path="/Onboarding" component={() => <Onboarding user={user} />} />
       {userId && APP_ROUTES.includes(location.pathname) && (
         <SideMenu user={user} setUserId={setUserId} />
       )}

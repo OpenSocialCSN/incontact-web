@@ -28,9 +28,9 @@ export default function LinkAccount({ userId }) {
 }
 
 const CLICK_HANDLERS = {
-  google: userId =>
+  google: (userId, userAccountId) =>
     window.open(
-      `${BASE_URI}integrations/google/authUrl?userId=${userId}`,
+      `${BASE_URI}integrations/google/authUrl?userId=${userId}?userAccountId=${userAccountId}`,
       "_self"
     )
 };

@@ -31,6 +31,14 @@ export const getUserById = userId => {
         firstName
         lastName
         email
+        accounts {
+          _id
+          serviceName
+          accountName
+          url
+          apiToken
+          syncStatus
+        }
         contacts {
           _id
           homeEmail
@@ -68,6 +76,23 @@ export const createUser = (email, password) => {
       }
     }`;
 
+  return executeQuery(query);
+};
+
+export const addUserAccount = args => {
+  args.syncStatus = "UNAUTHED";
+  const inlineArgs = generateArgs(args);
+  const query = `
+    mutation AddIntegration {
+      addUserAccount(${inlineArgs}){
+        _id
+        serviceName
+        syncStatus
+        apiToken
+        url
+        accountName
+      } 
+    }`;
   return executeQuery(query);
 };
 

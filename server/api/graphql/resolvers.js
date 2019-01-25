@@ -52,6 +52,14 @@ export const getResolvers = ({ Users, Contacts, Social }) => ({
       const user = await Users.findOne(_id);
       args._id = new ObjectId();
       if (user.accounts) {
+        // prevent multiple blank accounts being created
+        // if user tries multiple times to sync
+        if (args.syncStatus === "UNAUTHED") {
+          const existing = user.accounts.find(
+            acc => acc.syncStatus === "UNAUTHED"
+          );
+          if (existing) return existing;
+        }
         user.accounts.push(args);
       } else {
         user.accounts = [args];
@@ -72,10 +80,11 @@ export const getResolvers = ({ Users, Contacts, Social }) => ({
       );
       if (acctIndex < 0)
         return new Error(`No account found with id: ${args._id}`);
-      accounts[acctIndex] = args;
+      const updateObject = Object.assign(accounts[acctIndex], args);
+      accounts[acctIndex] = updateObject;
       const query = { _id: userId };
       await Users.update(query, { $set: user });
-      return args;
+      return updateObject;
     },
     createContact: async (root, args) => {
       const res = await Contacts.insert(args);
