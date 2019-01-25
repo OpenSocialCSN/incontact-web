@@ -83,7 +83,8 @@ const BASE_URI = window.location.href.includes("localhost")
 
 const getAccountCounts = accounts => {
   const counts = {};
-  accounts.forEach(({ serviceName }) => {
+  accounts.forEach(({ serviceName, syncStatus }) => {
+    if (syncStatus === "UNAUTHED") return;
     counts[serviceName] = counts[serviceName] ? ++counts[serviceName] : 1;
   });
   return counts;
