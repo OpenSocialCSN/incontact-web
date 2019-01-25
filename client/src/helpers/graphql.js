@@ -88,7 +88,6 @@ export const addUserAccount = args => {
         _id
         serviceName
         syncStatus
-        apiToken
         url
         accountName
       } 

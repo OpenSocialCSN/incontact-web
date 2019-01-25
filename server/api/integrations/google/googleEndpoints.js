@@ -16,8 +16,8 @@ const establishGoogleEndpoints = function(expressApp, graphQlResolvers) {
 
   expressApp.get("/integrations/google/oauth2callback", async (req, res) => {
     const code = req.query.code;
-    const tokens = await authClient.getToken(code);
-    const connections = await getConnections(tokens);
+    const token = await authClient.getToken(code);
+    const { connections, emailAddress } = await getConnections(token);
     console.log(`found ${connections.length} connections`);
     let { userId, userAccountId, forwardingRoute } = JSON.parse(
       req.query.state
@@ -36,7 +36,9 @@ const establishGoogleEndpoints = function(expressApp, graphQlResolvers) {
     graphQlResolvers.Mutation.updateUserAccount(null, {
       userId,
       _id: userAccountId,
-      syncStatus: "SYNCED"
+      syncStatus: "SYNCED",
+      apiToken: code,
+      accountName: emailAddress
     });
 
     forwardingRoute = forwardingRoute || "";

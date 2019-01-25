@@ -8,9 +8,6 @@ const { oAuth2Client } = authClient;
 
 export async function getConnections(tokens) {
   if (!tokens) throw Error("getConnections called w/o tokens");
-
-  // List all user connections / contacts
-  // https://developers.google.com/people/api/rest/v1/people.connections
   oAuth2Client.credentials = tokens;
 
   const people = google.people({
@@ -18,6 +15,16 @@ export async function getConnections(tokens) {
     auth: oAuth2Client
   });
 
+  const { data: userData } = await people.people.get({
+    resourceName: "people/me",
+    personFields: ["emailAddresses"]
+  });
+
+  let userEmail;
+  forEach(userData.emailAddresses, emailObj => (userEmail = emailObj.value));
+
+  // List all user connections / contacts
+  // https://developers.google.com/people/api/rest/v1/people.connections
   let {
     data: { connections }
   } = await people.people.connections.list({
@@ -41,7 +48,7 @@ export async function getConnections(tokens) {
     // pageSize: 10
   });
 
-  return connections.map(c => {
+  connections = connections.map(c => {
     try {
       c = translateToIncontact(c);
     } catch (e) {
@@ -50,6 +57,11 @@ export async function getConnections(tokens) {
     }
     return c;
   });
+
+  return {
+    connections,
+    emailAddress: userEmail
+  };
 }
 
 const translateToIncontact = googleConnection => {
