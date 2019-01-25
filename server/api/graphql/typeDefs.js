@@ -19,6 +19,7 @@ type User {
 }
 
 type UserAccount {
+  _id: ID
   serviceName:String
   accountName:String
   url:String
@@ -65,14 +66,22 @@ type Mutation {
     lastName: String,
     email: String,
   ): User
-  createContact(userId: ID!, firstName: String, lastName: String, homeEmail: String,
-    workEmail: String, title: String, organization:String, workAddress:String, homeAddress:String,
-    workPhone:String, homePhone:String, imageUrl:String, birthday:String, note:String): Contact
   addUserAccount(userId:ID!,
     serviceName:String,
     accountName:String,
     url:String,
-    apiToken:String): UserAccount
+    apiToken:String,
+    syncStatus: String): UserAccount
+  updateUserAccount(_id:ID!,
+    userId:ID!,
+    serviceName:String,
+    accountName:String,
+    url:String,
+    apiToken:String,
+    syncStatus: String): UserAccount
+  createContact(userId: ID!, firstName: String, lastName: String, homeEmail: String,
+    workEmail: String, title: String, organization:String, workAddress:String, homeAddress:String,
+    workPhone:String, homePhone:String, imageUrl:String, birthday:String, note:String): Contact
   updateContact(_id: ID!, firstName: String, lastName: String, homeEmail: String,
     workEmail: String, title: String, organization:String, workAddress:String, 
     homeAddress:String, workPhone:String, homePhone:String, imageUrl:String, birthday:String, note:String): Contact

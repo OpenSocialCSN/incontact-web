@@ -50,6 +50,7 @@ export const getResolvers = ({ Users, Contacts, Social }) => ({
     addUserAccount: async (root, args) => {
       const _id = ObjectId(args.userId);
       const user = await Users.findOne(_id);
+      args._id = new ObjectId();
       if (user.accounts) {
         user.accounts.push(args);
       } else {
@@ -57,6 +58,22 @@ export const getResolvers = ({ Users, Contacts, Social }) => ({
       }
       const query = { _id: ObjectId(args.userId) };
       delete args.userId;
+      await Users.update(query, { $set: user });
+      return args;
+    },
+    updateUserAccount: async (root, args) => {
+      const userId = ObjectId(args.userId);
+      delete args.userId;
+      const user = await Users.findOne(userId);
+      const accounts = user.accounts || [];
+      //id check must not be triple equals ===
+      const acctIndex = accounts.findIndex(
+        acct => acct && acct._id == args._id
+      );
+      if (acctIndex < 0)
+        return new Error(`No account found with id: ${args._id}`);
+      accounts[acctIndex] = args;
+      const query = { _id: userId };
       await Users.update(query, { $set: user });
       return args;
     },
