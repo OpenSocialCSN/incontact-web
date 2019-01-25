@@ -27,9 +27,27 @@ export default function Onboarding({ user = {} }) {
             onClick={() => CLICK_HANDLERS.google(userId)}
           />
           <OnboardSyncItem
+            icon={socialIcons.linkedin}
+            title="LinkedIn"
+            count={accountCounts.linkedin}
+            onClick={() => alert("TODO")}
+          />
+          <OnboardSyncItem
             icon={socialIcons.facebook}
             title="Facebook"
             count={accountCounts.facebook}
+            onClick={() => alert("TODO")}
+          />
+          <OnboardSyncItem
+            icon={socialIcons.twitter}
+            title="Twitter"
+            count={accountCounts.twitter}
+            onClick={() => alert("TODO")}
+          />
+          <OnboardSyncItem
+            icon={socialIcons.skype}
+            title="Skype"
+            count={accountCounts.skype}
             onClick={() => alert("TODO")}
           />
           <OnboardSyncItem
