@@ -72,6 +72,7 @@ type Mutation {
     url:String,
     apiToken:String,
     syncStatus: String): UserAccount
+  deleteUserAccount(_id:ID!, userId:ID!): Int
   updateUserAccount(_id:ID!,
     userId:ID!,
     serviceName:String,

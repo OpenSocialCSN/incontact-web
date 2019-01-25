@@ -95,6 +95,15 @@ export const addUserAccount = args => {
   return executeQuery(query);
 };
 
+export const deleteUserIntegrationAccount = args => {
+  const inlineArgs = generateArgs(args);
+  const query = `
+    mutation DeleteIntegration {
+      deleteUserAccount(${inlineArgs}) 
+    }`;
+  return executeQuery(query);
+};
+
 export const createContact = (contact, userId) => {
   if (!contact) throw new Error("Bad arg @ createContact:", contact);
   const args = `userId:"${userId}", ${generateArgs(contact)}`;

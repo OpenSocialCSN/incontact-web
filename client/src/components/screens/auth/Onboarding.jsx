@@ -3,13 +3,17 @@ import React from "react";
 import { history } from "../../../helpers/routerHelper";
 import emailIcon from "../../../assets/images/email.png";
 import socialIcons from "../../../assets/images/social/";
-import { addUserAccount } from "../../../helpers/graphql";
+import {
+  addUserAccount,
+  deleteUserIntegrationAccount
+} from "../../../helpers/graphql";
 import { MdCheck } from "react-icons/md";
 
 export default function Onboarding({ user = {} }) {
   if (!user) return <span />;
   const { accounts, _id: userId } = user;
-  const accountCounts = getAccountCounts(accounts);
+  const accountCounts = getAccountCounts(accounts, userId);
+
   return (
     <div className="Onboarding Onboard-screen">
       <div className="Onboard-card card">
@@ -81,11 +85,28 @@ const BASE_URI = window.location.href.includes("localhost")
   ? "http://localhost:5000/"
   : "https://incontactme.herokuapp.com/";
 
-const getAccountCounts = accounts => {
+const getAccountCounts = (accounts, userId) => {
   const counts = {};
-  accounts.forEach(({ serviceName, syncStatus }) => {
+  accounts.forEach(account => {
+    const { serviceName, syncStatus } = account;
+    if (syncStatus.includes("ERR_"))
+      return deleteAccountAndNotifyUser(account, userId);
     if (syncStatus === "UNAUTHED") return;
     counts[serviceName] = counts[serviceName] ? ++counts[serviceName] : 1;
   });
   return counts;
+};
+
+const deleteAccountAndNotifyUser = ({ _id, syncStatus }, userId) => {
+  if (!NOTIFIED_OF[syncStatus]) {
+    NOTIFIED_OF[syncStatus] = true;
+    alert(ERR_MESSAGES[syncStatus]);
+    deleteUserIntegrationAccount({ _id, userId });
+  }
+};
+
+const NOTIFIED_OF = {};
+
+const ERR_MESSAGES = {
+  ERR_DUPLICATE_ACCOUNT: "You've already imported that account"
 };

@@ -1,5 +1,5 @@
 import authClient from "./googleAuth";
-import { getConnections } from "./getConnections";
+import { getConnections, getUserEmail } from "./getConnections";
 
 const establishGoogleEndpoints = function(expressApp, graphQlResolvers) {
   expressApp.get("/integrations/google/authUrl", (req, res) => {
@@ -17,43 +17,65 @@ const establishGoogleEndpoints = function(expressApp, graphQlResolvers) {
   expressApp.get("/integrations/google/oauth2callback", async (req, res) => {
     const code = req.query.code;
     const token = await authClient.getToken(code);
-    const { connections, emailAddress } = await getConnections(token);
-    console.log(`found ${connections.length} connections`);
     let { userId, userAccountId, forwardingRoute } = JSON.parse(
       req.query.state
     );
-    connections.forEach(async c => {
-      const { social } = c;
-      delete c.social;
-      c.userId = userId;
-      const { _id } = await graphQlResolvers.Mutation.createContact(null, c);
-      if (social) {
-        social.contactId = _id;
-        graphQlResolvers.Mutation.addSocial(null, social);
-      }
-    });
 
-    graphQlResolvers.Mutation.updateUserAccount(null, {
-      userId,
-      _id: userAccountId,
-      syncStatus: "SYNCED",
-      apiToken: code,
-      accountName: emailAddress
-    });
-
-    forwardingRoute = forwardingRoute || "";
-    res.statusCode = 302;
-    res.setHeader(
-      "Location",
-      process.env.NODE_ENV === "production"
-        ? `https://incontactme.herokuapp.com/${forwardingRoute}`
-        : `http://localhost:3000/${forwardingRoute}`
+    const userEmail = await getUserEmail(token);
+    const userAccounts = await graphQlResolvers.User.accounts({ _id: userId });
+    const existingAccount = userAccounts.find(
+      acc => acc.syncStatus !== "UNAUTH" && acc.accountName === userEmail
     );
 
-    // res.send(connections);
+    let accountUpdateObj;
+    if (existingAccount) {
+      // PREVENT MULTIPLE IMPORTS OF SAME CONTACT LIST
+      accountUpdateObj = {
+        userId,
+        _id: userAccountId,
+        syncStatus: "ERR_DUPLICATE_ACCOUNT",
+        apiToken: code
+      };
+    } else {
+      await getContactsAndPersist(userId, token, graphQlResolvers);
+      accountUpdateObj = {
+        userId,
+        _id: userAccountId,
+        syncStatus: "SYNCED",
+        apiToken: code,
+        accountName: userEmail
+      };
+    }
 
-    res.end();
+    graphQlResolvers.Mutation.updateUserAccount(null, accountUpdateObj);
+    redirectUser(res, forwardingRoute);
   });
+};
+
+const getContactsAndPersist = async (userId, token, graphQlResolvers) => {
+  const connections = await getConnections(token);
+  connections.forEach(async c => {
+    const { social } = c;
+    delete c.social;
+    c.userId = userId;
+    const { _id } = await graphQlResolvers.Mutation.createContact(null, c);
+    if (social) {
+      social.contactId = _id;
+      graphQlResolvers.Mutation.addSocial(null, social);
+    }
+  });
+  return connections;
+};
+
+const redirectUser = (res, forwardingRoute = "") => {
+  res.statusCode = 302;
+  res.setHeader(
+    "Location",
+    process.env.NODE_ENV === "production"
+      ? `https://incontactme.herokuapp.com/${forwardingRoute}`
+      : `http://localhost:3000/${forwardingRoute}`
+  );
+  res.end();
 };
 
 export default establishGoogleEndpoints;

@@ -5,23 +5,26 @@ const { google } = require("googleapis");
 import authClient from "./googleAuth";
 
 const { oAuth2Client } = authClient;
+const people = google.people({
+  version: "v1",
+  auth: oAuth2Client
+});
 
-export async function getConnections(tokens) {
-  if (!tokens) throw Error("getConnections called w/o tokens");
-  oAuth2Client.credentials = tokens;
-
-  const people = google.people({
-    version: "v1",
-    auth: oAuth2Client
-  });
-
+export async function getUserEmail(token) {
+  if (!token) throw Error("getUserEmail called w/o tokens");
+  oAuth2Client.credentials = token;
   const { data: userData } = await people.people.get({
     resourceName: "people/me",
     personFields: ["emailAddresses"]
   });
-
   let userEmail;
   forEach(userData.emailAddresses, emailObj => (userEmail = emailObj.value));
+  return userEmail;
+}
+
+export async function getConnections(tokens) {
+  if (!tokens) throw Error("getConnections called w/o tokens");
+  oAuth2Client.credentials = tokens;
 
   // List all user connections / contacts
   // https://developers.google.com/people/api/rest/v1/people.connections
@@ -48,7 +51,7 @@ export async function getConnections(tokens) {
     // pageSize: 10
   });
 
-  connections = connections.map(c => {
+  return connections.map(c => {
     try {
       c = translateToIncontact(c);
     } catch (e) {
@@ -57,11 +60,6 @@ export async function getConnections(tokens) {
     }
     return c;
   });
-
-  return {
-    connections,
-    emailAddress: userEmail
-  };
 }
 
 const translateToIncontact = googleConnection => {

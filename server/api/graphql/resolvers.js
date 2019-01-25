@@ -13,7 +13,7 @@ export const getResolvers = ({ Users, Contacts, Social }) => ({
     }
   },
   User: {
-    accounts: async ({ _id }, { first = 0, skip = 0 }) => {
+    accounts: async ({ _id }) => {
       const res = await Users.findOne(ObjectId(_id));
       const accounts = res && res.accounts ? res.accounts : [];
       return accounts;
@@ -85,6 +85,16 @@ export const getResolvers = ({ Users, Contacts, Social }) => ({
       const query = { _id: userId };
       await Users.update(query, { $set: user });
       return updateObject;
+    },
+    deleteUserAccount: async (root, { _id, userId }) => {
+      userId = ObjectId(userId);
+      const user = await Users.findOne(userId);
+      const { accounts } = user;
+      const accIndex = accounts.findIndex(acc => acc._id == _id);
+      if (accIndex < 0) return 0; // no acc found
+      accounts.splice(accIndex, 1);
+      await Users.update({ _id: userId }, { $set: user });
+      return 1;
     },
     createContact: async (root, args) => {
       const res = await Contacts.insert(args);
