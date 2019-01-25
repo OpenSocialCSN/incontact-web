@@ -8,7 +8,7 @@ export default function Login({ setUserId }) {
   const password = useFormInput("");
 
   return (
-    <div className="Login">
+    <div className="Onboard-scren">
       <h1>Temp Login</h1>
       <input type="text" {...email} />
       <br />

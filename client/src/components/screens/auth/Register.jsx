@@ -1,8 +1,8 @@
-import React, { useEffect } from "react";
+import React from "react";
 
-import "./styles/Login.scss";
+import "./styles/Onboard.scss";
 import openSocial from "../../../assets/images/opensocial.png";
-import { useFormInput } from "../../../helpers/customHooks";
+import { useFormInput, useOnDidMount } from "../../../helpers/customHooks";
 import { createUser } from "../../../helpers/graphql";
 import { history } from "../../../helpers/routerHelper";
 
@@ -13,19 +13,16 @@ export default function Register({ setUserId, userId }) {
   const submit = async () => {
     const { createUser: user } = await createUser(email.value);
     setUserId(user._id);
-    history.push("/Contacts");
+    history.push("/Onboarding");
   };
 
-  useEffect(
-    () => {
-      if (userId) history.push("/Contacts");
-    },
-    [userId]
-  );
+  useOnDidMount(() => {
+    if (userId) history.push("/Contacts");
+  });
 
   return (
-    <div className="Login">
-      <div className="Login-card card">
+    <div className="Register Onboard-screen">
+      <div className="Onboard-card card">
         <h1>inContact</h1>
         <small>temporary mock login</small>
         <input type="text" placeholder="Email" {...email} />

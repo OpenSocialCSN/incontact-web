@@ -36,3 +36,9 @@ export const useOnClickOutside = (ref, handler) => {
     };
   }, []); // Empty array ensures that effect is only run on mount and unmount
 };
+
+export const useOnDidMount = fn => {
+  const [mounted, setMounted] = useState(false);
+  !mounted && fn();
+  !mounted && setMounted(true);
+};

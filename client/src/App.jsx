@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Route, withRouter } from "react-router-dom";
 
+import Register from "./components/screens/auth/Register";
+import Onboarding from "./components/screens/auth/Onboarding";
 import ContactsScreen from "./components/screens/contacts/ContactsScreen";
 import ServerCall from "./components/screens/ServerCall";
 import SideMenu from "./SideMenu";
@@ -8,7 +10,6 @@ import EditContactModal from "./components/screens/modals/EditContactModal";
 import LinkAccountModal from "./components/screens/modals/LinkAccountModal";
 import { getUserById } from "./helpers/graphql";
 import { getCache, setCache } from "./helpers/cacheHelper";
-import Register from "./components/screens/auth/Register";
 import { history } from "./helpers/routerHelper";
 
 let userId = getCache("userId");
@@ -59,11 +60,13 @@ function App({ location, history }) {
         path="/Register"
         component={() => <Register setUserId={setUserId} userId={userId} />}
       />
-
-      {userId && location.pathname !== "/Register" && (
+      <Route
+        path="/Onboarding"
+        component={() => <Onboarding userId={userId} />}
+      />
+      {userId && APP_ROUTES.includes(location.pathname) && (
         <SideMenu user={user} setUserId={setUserId} />
       )}
-
       <Route
         path="/(|Contacts)/" // "/" OR "/Contacts"
         component={() => (
@@ -80,6 +83,8 @@ function App({ location, history }) {
 }
 
 export default withRouter(App);
+
+const APP_ROUTES = ["/", "/Contacts", "/Notifications", "/History"];
 
 const Notifications = () => (
   <span className="App-screen">
