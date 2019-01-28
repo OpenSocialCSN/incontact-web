@@ -16,7 +16,7 @@ npm run dev
 To develop with the incontact GraphQL API, you can use the Graphiql IDE.
 
 - Launch the application with the steps in the "Up and running" section
-- Open up Graphiql by visiting [localhost:5000/graphiql](localhost:5000/graphiql)
+- Open up Graphiql by visiting [localhost:5000/graphiql](http://localhost:5000/graphiql)
 
 You can play around with the documentation pane on the right to view available mutations and data types
 
