@@ -1,32 +1,18 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
 import "./styles/ContactsScreen.scss";
 import ContactList from "./ContactList";
 import ContactInfo from "./ContactInfo";
-import { usePrevious } from "../../../helpers/customHooks";
 import { Spinner } from "../../reusable";
 
 export default function ContactsScreen({ contacts, setModal, user }) {
   if (!contacts) return <LoadingContacts />;
-
   const [selectedContactId, selectContact] = useState(
-    contacts.length > 0 ? contacts[0]._id : null
+    localStorage.getItem("prevSelectedContact") ||
+      (contacts.length > 0 ? contacts[0]._id : null)
   );
-
-  contacts = sortContacts(contacts);
-
-  const prevContacts = usePrevious(contacts);
-  useEffect(
-    () => {
-      if (contacts[0] && !prevContacts) {
-        // initial load complete
-        selectContact(contacts[0]._id);
-      }
-    },
-    [contacts]
-  );
-
   const selectedContact = contacts.find(c => c._id === selectedContactId);
+  localStorage.setItem("prevSelectedContact", selectedContactId);
 
   return (
     <div className="ContactsScreen App-screen">
@@ -41,18 +27,6 @@ export default function ContactsScreen({ contacts, setModal, user }) {
     </div>
   );
 }
-
-const sortContacts = contactsArr =>
-  contactsArr.slice(0).sort((a, b) => {
-    if (a.lastName < b.lastName) {
-      return -1;
-    } else if (a.lastName === b.lastName) {
-      return a.firstName < b.firstName ? -1 : 1;
-    } else if (a.lastName > b.lastName) {
-      return 1;
-    }
-    return 0;
-  });
 
 const LoadingContacts = () => (
   <div className="ContactsScreen">

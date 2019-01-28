@@ -3,8 +3,11 @@ import { MdFilterList } from "react-icons/md";
 
 import { Dropdown } from "../../reusable";
 import ContactListItem from "./ContactListIstem";
-import LinkAccount from "../../reusable/LinkAccount";
+import LinkAccounts from "../../reusable/LinkAccounts";
+import { getCache, setCache } from "../../../helpers/cacheHelper";
 
+let contactsDiff = 0;
+let prevContacts = null;
 export default function ContactList({
   contacts,
   selectContact,
@@ -12,15 +15,25 @@ export default function ContactList({
   setModal,
   user
 }) {
-  const [filteredContacts, setFilteredContacts] = useState(contacts);
+  const [filteredContacts, setFilteredContacts] = useState(
+    getCache("prevFilteredContacts") || contacts
+  );
   const [query, setQuery] = useState("");
+  if (!arraysAreEqual(prevContacts, contacts)) contactsDiff++;
 
   useEffect(
     // re-filter anytime query, or contacts changes
     () => {
-      setFilteredContacts(filterContacts(query, contacts));
+      const filtered = sortContacts(filterContacts(query, contacts));
+      setFilteredContacts(filtered);
+      setCache("prevFilteredContacts", filtered);
+      prevContacts = contacts;
+      if (contacts[0] && !prevContacts) {
+        // initial load complete
+        selectContact(filtered[0]._id);
+      }
     },
-    [query, contacts]
+    [query, contactsDiff]
   );
 
   return (
@@ -93,13 +106,42 @@ const ScrollableContactList = ({
 );
 
 const GetStarted = ({ user }) => (
-  <div>
-    <h2>Import your contacts to get started</h2>
-    <LinkAccount userId={user._id} />
-  </div>
+  <LinkAccounts
+    user={user}
+    title={`Import your contacts to get started`}
+    hideDone
+  />
 );
 
 const filterContacts = (query, contacts) =>
   contacts.filter(c =>
     c.displayName.toUpperCase().includes(query.toUpperCase())
   );
+
+const sortContacts = contactsArr =>
+  contactsArr.slice(0).sort((a, b) => {
+    if (a.lastName < b.lastName) {
+      return -1;
+    } else if (a.lastName === b.lastName) {
+      return a.firstName < b.firstName ? -1 : 1;
+    } else if (a.lastName > b.lastName) {
+      return 1;
+    }
+    return 0;
+  });
+
+const arraysAreEqual = (a, b) => {
+  if (a === b) return true;
+  if (a == null || b == null) return false;
+  if (a.length != b.length) return false;
+
+  // If you don't care about the order of the elements inside
+  // the array, you should sort both arrays here.
+  // Please note that calling sort on an array will modify that array.
+  // you might want to clone your array first.
+
+  for (var i = 0; i < a.length; ++i) {
+    if (a[i] !== b[i]) return false;
+  }
+  return true;
+};
