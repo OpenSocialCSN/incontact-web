@@ -7,7 +7,7 @@ import emailIcon from "../../../assets/images/email.png";
 import addressIcon from "../../../assets/images/address.png";
 import socialIcons from "../../../assets/images/social";
 import { Avatar, Dropdown } from "../../reusable";
-import { deleteContactById } from "../../../helpers/graphql";
+import { deleteContactById } from "../../../api/contactsApi";
 
 export default function ContactInfo({ contact, setModal }) {
   return contact ? (

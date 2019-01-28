@@ -8,7 +8,7 @@ import ServerCall from "./components/screens/ServerCall";
 import SideMenu from "./SideMenu";
 import EditContactModal from "./components/screens/modals/EditContactModal";
 import LinkAccountsModal from "./components/screens/modals/LinkAccountsModal";
-import { getUserById } from "./helpers/graphql";
+import { getUserById } from "./api/usersApi";
 import { getCache, setCache } from "./helpers/cacheHelper";
 import { history } from "./helpers/routerHelper";
 

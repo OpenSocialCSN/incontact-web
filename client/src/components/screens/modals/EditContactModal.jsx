@@ -3,7 +3,7 @@ import React from "react";
 import "./styles/Modals.scss";
 import { Modal } from "../../reusable";
 import { useFormInput } from "../../../helpers/customHooks";
-import { createContact, updateContact } from "../../../helpers/graphql";
+import { createContact, updateContact } from "../../../api/contactsApi";
 
 export default function EditContactModal({
   context: { contact } = {},

@@ -8,7 +8,7 @@ import socialIcons from "../../assets/images/social/";
 import {
   addUserAccount,
   deleteUserIntegrationAccount
-} from "../../helpers/graphql";
+} from "../../api/usersApi";
 
 export default function LinkAccounts({
   user = {},

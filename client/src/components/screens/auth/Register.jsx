@@ -3,7 +3,7 @@ import React from "react";
 import "./styles/Onboard.scss";
 import openSocial from "../../../assets/images/opensocial.png";
 import { useFormInput, useOnDidMount } from "../../../helpers/customHooks";
-import { createUser } from "../../../helpers/graphql";
+import { createUser } from "../../../api/usersApi";
 import { history } from "../../../helpers/routerHelper";
 
 export default function Register({ setUserId, userId }) {
