@@ -8,7 +8,8 @@ import { createContact, updateContact } from "../../../helpers/graphql";
 export default function EditContactModal({
   context: { contact } = {},
   userId,
-  onClose
+  onClose,
+  onCancel
 }) {
   const c = contact || {};
   const form = {
@@ -38,7 +39,7 @@ export default function EditContactModal({
   };
 
   return (
-    <Modal onClose={onClose}>
+    <Modal onClose={onCancel}>
       <span className="EditContactModal">
         <div className="column">
           <h2>Contact Details</h2>
