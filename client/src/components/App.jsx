@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { Route, withRouter } from "react-router-dom";
 
-import Register from "./components/screens/auth/Register";
-import OnboardingScreen from "./components/screens/auth/OnboardingScreen";
-import ContactsScreen from "./components/screens/contacts/ContactsScreen";
-import ServerCall from "./components/screens/ServerCall";
+import Register from "./screens/auth/Register";
+import OnboardingScreen from "./screens/auth/OnboardingScreen";
+import ContactsScreen from "./screens/contacts/ContactsScreen";
+import ServerCall from "./screens/ServerCall";
 import SideMenu from "./SideMenu";
-import EditContactModal from "./components/screens/modals/EditContactModal";
-import LinkAccountsModal from "./components/screens/modals/LinkAccountsModal";
-import { getUserById } from "./api/usersApi";
-import { getCache, setCache } from "./helpers/cacheHelper";
-import { history } from "./helpers/routerHelper";
+import EditContactModal from "./screens/modals/EditContactModal";
+import LinkAccountsModal from "./screens/modals/LinkAccountsModal";
+import { getUserById } from "../api/usersApi";
+import { getCache, setCache } from "../helpers/cacheHelper";
+import { history } from "../helpers/routerHelper";
 
 let userId = getCache("userId");
 if (!userId) {

@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import Router from "./Router";
+import Router from "./components/Router";
 import "./assets/styles/GlobalStyles.scss";
 
 import * as serviceWorker from "./helpers/serviceWorker";
