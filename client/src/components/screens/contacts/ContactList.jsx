@@ -20,6 +20,7 @@ export default function ContactList({
   );
   const [query, setQuery] = useState("");
   if (!arraysAreEqual(prevContacts, contacts)) contactsDiff++;
+  prevContacts = contacts;
 
   useEffect(
     // re-filter anytime query, or contacts changes
@@ -27,7 +28,6 @@ export default function ContactList({
       const filtered = sortContacts(filterContacts(query, contacts));
       setFilteredContacts(filtered);
       setCache("prevFilteredContacts", filtered);
-      prevContacts = contacts;
       if (contacts[0] && !prevContacts) {
         // initial load complete
         selectContact(filtered[0]._id);
@@ -132,8 +132,8 @@ const sortContacts = contactsArr =>
 
 const arraysAreEqual = (a, b) => {
   if (a === b) return true;
-  if (a == null || b == null) return false;
-  if (a.length != b.length) return false;
+  if (a === null || b == null) return false;
+  if (a.length !== b.length) return false;
 
   // If you don't care about the order of the elements inside
   // the array, you should sort both arrays here.
