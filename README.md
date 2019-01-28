@@ -20,4 +20,4 @@ To develop with the incontact GraphQL API, you can use the Graphiql IDE.
 
 You can play around with the documentation pane on the right to view available mutations and data types
 
-<img src="https://lh5.googleusercontent.com/q1QaQqy7VWsb9ATSxtG9ksXCbik2yQSyKgYwoCoQJ-i78bZ7XwtmBqh8gJ6_jdZ_zdkuvCmkbxHWSsTnjp2T=w1154-h940-rw">
+[![graphiql.png](https://i.postimg.cc/jdH55WW9/graphiql.png)](https://postimg.cc/D8zFpwPd)
