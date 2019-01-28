@@ -5,17 +5,18 @@ import bodyParser from "body-parser";
 import { getResolvers } from "./resolvers";
 import { typeDefs } from "./typeDefs";
 import dbInstance from "../../db/dbInstance";
+import UsersDataSource from "../../db/datasources/users";
+import ContactsDataSource from "../../db/datasources/contacts";
 
 async function establishGraphQL(app) {
   let resolvers;
   try {
     const db = await dbInstance.getConnection();
-    const mongoCollections = {
-      Users: db.collection("users"),
-      Contacts: db.collection("contacts"),
-      Social: db.collection("social")
+    const datasources = {
+      Users: new UsersDataSource(db),
+      Contacts: new ContactsDataSource(db)
     };
-    resolvers = getResolvers(mongoCollections);
+    resolvers = getResolvers(datasources);
     const schema = makeExecutableSchema({
       typeDefs,
       resolvers
