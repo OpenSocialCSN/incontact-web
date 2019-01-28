@@ -6,4 +6,4 @@ export { default as Circle } from "./Circle";
 export { default as Dropdown } from "./Dropdown";
 export { default as Modal } from "./Modal";
 export { default as Spinner } from "./Spinner";
-export { default as LinkAccount } from "./LinkAccount";
+export { default as LinkAccounts } from "./LinkAccounts";

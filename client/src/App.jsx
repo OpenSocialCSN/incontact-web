@@ -2,12 +2,12 @@ import React, { useEffect, useState } from "react";
 import { Route, withRouter } from "react-router-dom";
 
 import Register from "./components/screens/auth/Register";
-import Onboarding from "./components/screens/auth/Onboarding";
+import OnboardingScreen from "./components/screens/auth/OnboardingScreen";
 import ContactsScreen from "./components/screens/contacts/ContactsScreen";
 import ServerCall from "./components/screens/ServerCall";
 import SideMenu from "./SideMenu";
 import EditContactModal from "./components/screens/modals/EditContactModal";
-import LinkAccountModal from "./components/screens/modals/LinkAccountModal";
+import LinkAccountsModal from "./components/screens/modals/LinkAccountsModal";
 import { getUserById } from "./helpers/graphql";
 import { getCache, setCache } from "./helpers/cacheHelper";
 import { history } from "./helpers/routerHelper";
@@ -40,9 +40,6 @@ function App({ location, history }) {
 
   const closeModal = () => {
     setModal({ screen: null, context: null });
-    // temporary: when user is done with editing modal, reload all
-    // fututre: add mobx, update individual contacts, users on update actions
-    updateData();
   };
 
   const setUserId = id => {
@@ -52,7 +49,7 @@ function App({ location, history }) {
   };
 
   // Only re-run the effect if route changes
-  useEffect(() => updateData(userId), [location.pathname]);
+  useEffect(() => updateData(userId), []);
 
   return (
     <div className="App">
@@ -60,7 +57,10 @@ function App({ location, history }) {
         path="/Register"
         component={() => <Register setUserId={setUserId} userId={userId} />}
       />
-      <Route path="/Onboarding" component={() => <Onboarding user={user} />} />
+      <Route
+        path="/Onboarding"
+        component={() => <OnboardingScreen user={user} />}
+      />
       {userId && APP_ROUTES.includes(location.pathname) && (
         <SideMenu user={user} setUserId={setUserId} />
       )}
@@ -73,7 +73,12 @@ function App({ location, history }) {
       <Route path="/Notifications" component={Notifications} />
       <Route path="/History" component={ServerCall} />
       {modal.screen && (
-        <AppModal modal={modal} closeModal={closeModal} userId={user._id} />
+        <AppModal
+          modal={modal}
+          closeModal={closeModal}
+          user={user}
+          updateData={updateData}
+        />
       )}
     </div>
   );
@@ -89,18 +94,23 @@ const Notifications = () => (
   </span>
 );
 
-const AppModal = ({ modal, closeModal, userId }) => {
+const AppModal = ({ modal, closeModal, user, updateData }) => {
   const props = {
-    onClose: closeModal,
+    onClose: () => {
+      updateData();
+      closeModal();
+    },
+    onCancel: closeModal,
     context: modal.context,
-    userId
+    user,
+    userId: user._id
   };
 
   switch (modal.screen) {
     case "EditContact":
       return <EditContactModal {...props} />;
     case "LinkAccount":
-      return <LinkAccountModal {...props} />;
+      return <LinkAccountsModal {...props} />;
     default:
       throw new Error("Unrecognized modal");
   }
