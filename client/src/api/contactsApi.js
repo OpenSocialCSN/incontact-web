@@ -1,4 +1,4 @@
-import { executeQuery, generateArgs } from "./graphqlHelpers";
+import { executeQuery, generateArgs } from "../helpers/graphqlHelpers";
 
 export const createContact = (contact, userId) => {
   if (!contact) throw new Error("Bad arg @ createContact:", contact);
