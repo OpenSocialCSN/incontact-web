@@ -14,12 +14,7 @@ export default function DropdownButton({
   useOnClickOutside(ref, () => setDropdown(false));
 
   return (
-    <span
-      className="Dropdown noHighlight"
-      onClick={() =>
-        new Date().getTime() - lastRender > 200 && setDropdown(true)
-      }
-    >
+    <span className="Dropdown" onClick={() => setDropdown(true)} ref={ref}>
       {children}
       {showDropdown && (
         <span
