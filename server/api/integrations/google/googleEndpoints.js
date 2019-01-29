@@ -3,10 +3,10 @@ import { getConnections, getUserEmail } from "./getConnections";
 
 const establishGoogleEndpoints = function(expressApp, graphQlResolvers) {
   expressApp.get("/integrations/google/authUrl", (req, res) => {
-    const { userId, userAccountId, forwardingRoute } = req.query;
+    const { userId, userIntegrationId, forwardingRoute } = req.query;
     const authUrl = authClient.getAuthUrl({
       userId,
-      userAccountId,
+      userIntegrationId,
       forwardingRoute
     });
     res.statusCode = 302;
@@ -17,13 +17,15 @@ const establishGoogleEndpoints = function(expressApp, graphQlResolvers) {
   expressApp.get("/integrations/google/oauth2callback", async (req, res) => {
     const code = req.query.code;
     const token = await authClient.getToken(code);
-    let { userId, userAccountId, forwardingRoute } = JSON.parse(
+    let { userId, userIntegrationId, forwardingRoute } = JSON.parse(
       req.query.state
     );
 
     const userEmail = await getUserEmail(token);
-    const userAccounts = await graphQlResolvers.User.accounts({ _id: userId });
-    const existingAccount = userAccounts.find(
+    const userIntegrations = await graphQlResolvers.User.integrations({
+      _id: userId
+    });
+    const existingAccount = userIntegrations.find(
       acc => acc.syncStatus !== "UNAUTH" && acc.accountName === userEmail
     );
 
@@ -32,7 +34,7 @@ const establishGoogleEndpoints = function(expressApp, graphQlResolvers) {
       // PREVENT MULTIPLE IMPORTS OF SAME CONTACT LIST
       accountUpdateObj = {
         userId,
-        _id: userAccountId,
+        _id: userIntegrationId,
         syncStatus: "ERR_DUPLICATE_ACCOUNT",
         apiToken: code
       };
@@ -40,14 +42,14 @@ const establishGoogleEndpoints = function(expressApp, graphQlResolvers) {
       await getContactsAndPersist(userId, token, graphQlResolvers);
       accountUpdateObj = {
         userId,
-        _id: userAccountId,
+        _id: userIntegrationId,
         syncStatus: "SYNCED",
         apiToken: code,
         accountName: userEmail
       };
     }
 
-    graphQlResolvers.Mutation.updateUserAccount(null, accountUpdateObj);
+    graphQlResolvers.Mutation.updateUserIntegration(null, accountUpdateObj);
     redirectUser(res, forwardingRoute);
   });
 };

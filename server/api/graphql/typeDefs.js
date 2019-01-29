@@ -15,16 +15,16 @@ type User {
   lastName: String
   email: String
   contacts(skip:Int, first:Int): [Contact]
-  accounts:[UserAccount]
+  integrations:[UserIntegration]
 }
 
-type UserAccount {
+type UserIntegration {
   _id: ID
-  serviceName:String
-  accountName:String
-  url:String
-  apiToken:String
-  syncStatus: String
+  serviceName:String # 'google', 'outlook', etc.
+  accountName:String # 'email@url.com' or screen name
+  url:String         # 'linkedin.com/mypage' and the like
+  apiToken:String    # token for accessing service's api
+  syncStatus: String # UNAUTHED | SYNCED | ERR_DUPLICATE_ACCOUNT 
 }
 
 type Social {
@@ -66,20 +66,20 @@ type Mutation {
     lastName: String,
     email: String,
   ): User
-  addUserAccount(userId:ID!,
+  addUserIntegration(userId:ID!,
     serviceName:String,
     accountName:String,
     url:String,
     apiToken:String,
-    syncStatus: String): UserAccount
-  deleteUserAccount(_id:ID!, userId:ID!): Int
-  updateUserAccount(_id:ID!,
+    syncStatus: String): UserIntegration
+  deleteUserIntegration(_id:ID!, userId:ID!): Int
+  updateUserIntegration(_id:ID!,
     userId:ID!,
     serviceName:String,
     accountName:String,
     url:String,
     apiToken:String,
-    syncStatus: String): UserAccount
+    syncStatus: String): UserIntegration
   createContact(userId: ID!, firstName: String, lastName: String, homeEmail: String,
     workEmail: String, title: String, organization:String, workAddress:String, homeAddress:String,
     workPhone:String, homePhone:String, imageUrl:String, birthday:String, note:String): Contact

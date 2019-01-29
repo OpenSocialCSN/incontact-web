@@ -6,7 +6,7 @@ import { history } from "../../helpers/routerHelper";
 import emailIcon from "../../assets/images/email.png";
 import socialIcons from "../../assets/images/social/";
 import {
-  addUserAccount,
+  addUserIntegration,
   deleteUserIntegrationAccount
 } from "../../api/usersApi";
 
@@ -17,8 +17,8 @@ export default function LinkAccounts({
   hideDone = false
 }) {
   if (!user) return <span />;
-  const { accounts, _id: userId } = user;
-  const accountCounts = getAccountCounts(accounts, userId);
+  const { integrations, _id: userId } = user;
+  const integrationCounts = getIntegrationCounts(integrations, userId);
 
   return (
     <span className="LinkAccounts">
@@ -28,37 +28,37 @@ export default function LinkAccounts({
         <OnboardSyncItem
           icon={socialIcons.google}
           title="Google"
-          count={accountCounts.google}
+          count={integrationCounts.google}
           onClick={() => CLICK_HANDLERS.google(userId)}
         />
         <OnboardSyncItem
           icon={socialIcons.linkedin}
           title="LinkedIn"
-          count={accountCounts.linkedin}
+          count={integrationCounts.linkedin}
           onClick={() => alert("TODO")}
         />
         <OnboardSyncItem
           icon={socialIcons.facebook}
           title="Facebook"
-          count={accountCounts.facebook}
+          count={integrationCounts.facebook}
           onClick={() => alert("TODO")}
         />
         <OnboardSyncItem
           icon={socialIcons.twitter}
           title="Twitter"
-          count={accountCounts.twitter}
+          count={integrationCounts.twitter}
           onClick={() => alert("TODO")}
         />
         <OnboardSyncItem
           icon={socialIcons.skype}
           title="Skype"
-          count={accountCounts.skype}
+          count={integrationCounts.skype}
           onClick={() => alert("TODO")}
         />
         <OnboardSyncItem
           icon={emailIcon}
           title="Other Email"
-          count={accountCounts.email}
+          count={integrationCounts.email}
           onClick={() => alert("TODO")}
         />
       </div>
@@ -91,13 +91,13 @@ const CLICK_HANDLERS = {
   google: async userId => {
     console.log("userId:", userId);
 
-    const { addUserAccount: account } = await addUserAccount({
+    const { addUserIntegration: account } = await addUserIntegration({
       userId,
       serviceName: "google"
     });
 
     window.open(
-      `${BASE_URI}integrations/google/authUrl?userId=${userId}&userAccountId=${
+      `${BASE_URI}integrations/google/authUrl?userId=${userId}&userIntegrationId=${
         account._id
       }&forwardingRoute=Onboarding`,
       "_self"
@@ -109,9 +109,9 @@ const BASE_URI = window.location.href.includes("localhost")
   ? "http://localhost:5000/"
   : "https://incontactme.herokuapp.com/";
 
-const getAccountCounts = (accounts = [], userId) => {
+const getIntegrationCounts = (integrations = [], userId) => {
   const counts = {};
-  accounts.forEach(account => {
+  integrations.forEach(account => {
     const { serviceName, syncStatus } = account;
     if (syncStatus.includes("ERR_"))
       return deleteAccountAndNotifyUser(account, userId);

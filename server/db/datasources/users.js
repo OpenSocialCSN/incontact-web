@@ -17,10 +17,10 @@ export default class UsersDataSource {
     return (await this.store.find({}).toArray()).map(prepare);
   };
 
-  getAccounts = async ({ _id }) => {
+  getIntegrations = async ({ _id }) => {
     const res = await this.store.findOne(ObjectId(_id));
-    const accounts = res && res.accounts ? res.accounts : [];
-    return accounts;
+    const integrations = res && res.integrations ? res.integrations : [];
+    return integrations;
   };
 
   // MUTATIONS
@@ -38,22 +38,22 @@ export default class UsersDataSource {
     return updated;
   };
 
-  addUserAccount = async (root, args) => {
+  addUserIntegration = async (root, args) => {
     const _id = ObjectId(args.userId);
     const user = await this.store.findOne(_id);
     args._id = new ObjectId();
-    if (user.accounts) {
-      // prevent multiple blank accounts being created
+    if (user.integrations) {
+      // prevent multiple blank integrations being created
       // if user tries multiple times to sync
       if (args.syncStatus === "UNAUTHED") {
-        const existing = user.accounts.find(
+        const existing = user.integrations.find(
           acc => acc.syncStatus === "UNAUTHED"
         );
         if (existing) return existing;
       }
-      user.accounts.push(args);
+      user.integrations.push(args);
     } else {
-      user.accounts = [args];
+      user.integrations = [args];
     }
     const query = { _id: ObjectId(args.userId) };
     delete args.userId;
@@ -61,29 +61,31 @@ export default class UsersDataSource {
     return args;
   };
 
-  updateUserAccount = async (root, args) => {
+  updateUserIntegration = async (root, args) => {
     const userId = ObjectId(args.userId);
     delete args.userId;
     const user = await this.store.findOne(userId);
-    const accounts = user.accounts || [];
+    const integrations = user.integrations || [];
     //id check must not be triple equals ===
-    const acctIndex = accounts.findIndex(acct => acct && acct._id == args._id);
+    const acctIndex = integrations.findIndex(
+      acct => acct && acct._id == args._id
+    );
     if (acctIndex < 0)
       return new Error(`No account found with id: ${args._id}`);
-    const updateObject = Object.assign(accounts[acctIndex], args);
-    accounts[acctIndex] = updateObject;
+    const updateObject = Object.assign(integrations[acctIndex], args);
+    integrations[acctIndex] = updateObject;
     const query = { _id: userId };
     await this.store.update(query, { $set: user });
     return updateObject;
   };
 
-  deleteUserAccount = async (root, { _id, userId }) => {
+  deleteUserIntegration = async (root, { _id, userId }) => {
     userId = ObjectId(userId);
     const user = await this.store.findOne(userId);
-    const { accounts } = user;
-    const accIndex = accounts.findIndex(acc => acc._id == _id);
+    const { integrations } = user;
+    const accIndex = integrations.findIndex(acc => acc._id == _id);
     if (accIndex < 0) return 0; // no acc found
-    accounts.splice(accIndex, 1);
+    integrations.splice(accIndex, 1);
     await this.store.update({ _id: userId }, { $set: user });
     return 1;
   };

@@ -9,7 +9,7 @@ export const getUserById = userId => {
           firstName
           lastName
           email
-          accounts {
+          integrations {
             _id
             serviceName
             accountName
@@ -57,12 +57,12 @@ export const createUser = (email, password) => {
   return executeQuery(query);
 };
 
-export const addUserAccount = args => {
+export const addUserIntegration = args => {
   args.syncStatus = "UNAUTHED";
   const inlineArgs = generateArgs(args);
   const query = `
       mutation AddIntegration {
-        addUserAccount(${inlineArgs}){
+        addUserIntegration(${inlineArgs}){
           _id
           serviceName
           syncStatus
@@ -77,7 +77,7 @@ export const deleteUserIntegrationAccount = args => {
   const inlineArgs = generateArgs(args);
   const query = `
       mutation DeleteIntegration {
-        deleteUserAccount(${inlineArgs}) 
+        deleteUserIntegration(${inlineArgs}) 
       }`;
   return executeQuery(query);
 };

@@ -6,7 +6,7 @@ export const getResolvers = ({ Users, Contacts }) => ({
     contacts: Contacts.getContacts
   },
   User: {
-    accounts: Users.getAccounts,
+    integrations: Users.getIntegrations,
     contacts: Contacts.getContactsForUser
   },
   Contact: {
@@ -17,9 +17,9 @@ export const getResolvers = ({ Users, Contacts }) => ({
     //USERS
     createUser: Users.createUser,
     updateUser: Users.updateUser,
-    addUserAccount: Users.addUserAccount,
-    updateUserAccount: Users.updateUserAccount,
-    deleteUserAccount: Users.deleteUserAccount,
+    addUserIntegration: Users.addUserIntegration,
+    updateUserIntegration: Users.updateUserIntegration,
+    deleteUserIntegration: Users.deleteUserIntegration,
     //CONTACTS
     createContact: Contacts.createContact,
     updateContact: Contacts.updateContact,
