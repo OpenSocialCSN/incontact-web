@@ -5,6 +5,7 @@ import linkedin from "./linkedin.png";
 import skype from "./skype.png";
 import twitter from "./twitter.png";
 import youtube from "./youtube.png";
+import webpage from "./webpage.ico";
 
 const socialIcons = {
   facebook,
@@ -13,7 +14,8 @@ const socialIcons = {
   linkedin,
   skype,
   twitter,
-  youtube
+  youtube,
+  webpage
 };
 
 export default socialIcons;

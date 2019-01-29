@@ -5,6 +5,8 @@
 .EditContactModal {
   display: flex;
   justify-content: space-between;
+  height: 100%;
+
   h2 {
     font-size: 22px;
     color: #2f80ed;
@@ -14,15 +16,49 @@
     padding-right: 30px;
   }
   .EditContactModal-saveBtns {
+    align-self: flex-end;
     button {
       margin-left: 8px;
       margin-bottom: 8px;
     }
   }
+
+  input {
+    padding-left: 0px;
+    padding-right: 0px;
+    background-color: rgba(0, 0, 0, 0);
+    border-width: 0;
+    border-bottom: 2px dotted rgba(0, 0, 0, 0);
+    outline-width: 0;
+    border-radius: 0;
+    width: 100%;
+
+    &:focus {
+      border-bottom: 2px dotted #2f80ed;
+    }
+  }
 }
 
-.LinkAccountModal {
+.LinkAccountsModal {
+  .Modal-content {
+    padding: 30px;
+  }
+}
+
+.LinkAccount {
   img {
     cursor: pointer;
+  }
+}
+
+.Modal-nameForm {
+  display: flex;
+}
+
+.Modal-form {
+  display: flex;
+  flex-direction: column;
+  input {
+    // background-color: rgba(0, 0, 0, 0);
   }
 }

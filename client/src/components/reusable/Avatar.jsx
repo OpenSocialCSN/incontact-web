@@ -10,9 +10,11 @@ export default function Avatar({
   color = "white",
   size = 42
 }) {
+  backgroundColor = user.imageUrl ? "rgba(0,0,0,0)" : backgroundColor;
+
   return (
     <Circle size={size} color={backgroundColor} className="Avatar">
-      {isLetter || !user.iconUrl ? (
+      {isLetter || !user.imageUrl ? (
         <LetterAvatar
           user={user}
           color={color}
@@ -20,13 +22,13 @@ export default function Avatar({
           size={size}
         />
       ) : (
-        <IconAvatar src={user.iconUrl} />
+        <IconAvatar src={user.imageUrl} />
       )}
     </Circle>
   );
 }
 
-const IconAvatar = ({ src }) => <div />;
+const IconAvatar = ({ src }) => <img src={src} alt="user icon" />;
 
 const LetterAvatar = ({ user, color = "white", size }) => {
   const { displayName } = user;

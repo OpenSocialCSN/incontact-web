@@ -1,43 +1,36 @@
-import { ObjectId } from "mongodb";
-
 export const getResolvers = ({ Users, Contacts }) => ({
   Query: {
-    user: async (root, { _id }) => {
-      return prepare(await Users.findOne(ObjectId(_id)));
-    },
-    users: async () => {
-      return (await Users.find({}).toArray()).map(prepare);
-    },
-    contact: async (root, { _id }) => {
-      return prepare(await Contacts.findOne(ObjectId(_id)));
-    }
+    user: Users.getUser,
+    users: Users.getUsers,
+    contact: Contacts.getContact,
+    contacts: Contacts.getContacts
   },
   User: {
-    contacts: async ({ _id }, { first = 0, skip = 0 }) => {
-      return (await Contacts.find({ userId: _id })
-        .limit(first)
-        .skip(skip)
-        .toArray()).map(prepare);
-    }
+    accounts: Users.getAccounts,
+    contacts: Contacts.getContactsForUser
   },
   Contact: {
-    user: async ({ userId }) => {
-      return prepare(await Users.findOne(ObjectId(userId)));
-    }
+    user: ({ userId: _id }) => Users.getUser(null, { _id }),
+    social: Contacts.getSocialForContact
   },
   Mutation: {
-    createUser: async (root, args, context, info) => {
-      const res = await Users.insertOne(args);
-      return prepare(res.ops[0]);
-    },
-    createContact: async (root, args) => {
-      const res = await Contacts.insert(args);
-      return prepare(res.ops[0]);
+    //USERS
+    createUser: Users.createUser,
+    updateUser: Users.updateUser,
+    addUserAccount: Users.addUserAccount,
+    updateUserAccount: Users.updateUserAccount,
+    deleteUserAccount: Users.deleteUserAccount,
+    //CONTACTS
+    createContact: Contacts.createContact,
+    updateContact: Contacts.updateContact,
+    addSocial: Contacts.addSocial,
+    deleteContact: Contacts.deleteContact,
+    deleteAllContacts: Contacts.deleteAllContacts,
+
+    clearDatabase: async () => {
+      await Contacts.clearCollection();
+      await Users.clearCollection();
+      return 200;
     }
   }
 });
-
-const prepare = o => {
-  o._id = o._id.toString();
-  return o;
-};

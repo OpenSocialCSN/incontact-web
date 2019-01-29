@@ -14,9 +14,9 @@ exampleRouter.post("/api/world", (req, res) => {
   );
 });
 
-const establishEndpoints = function(app) {
-  establishIntegrationEndpoints(app);
-  establishGraphQl(app);
+const establishEndpoints = async function(app) {
+  const graphQlResolvers = await establishGraphQl(app);
+  establishIntegrationEndpoints(app, graphQlResolvers);
   app.use("/", exampleRouter);
 };
 

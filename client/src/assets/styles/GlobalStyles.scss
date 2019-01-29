@@ -1,4 +1,4 @@
-$primary: #2f80ed;
+@import "./StyleVariables.scss";
 $sideMenuWidth: 263px;
 
 body {
@@ -12,7 +12,7 @@ body {
 }
 
 .App {
-  .App-content {
+  .App-screen {
     text-align: center;
     position: fixed;
     top: 0;
@@ -55,11 +55,15 @@ body {
 
   h1 {
     // incontact title
+    color: white;
     font-size: 41px;
     text-align: center;
     cursor: pointer;
   }
 
+  .SideMenu-routerLink {
+    text-decoration: none;
+  }
   .SideMenuItem {
     @extend %link;
     color: white;
@@ -88,10 +92,13 @@ body {
     left: 18px;
     cursor: pointer;
   }
-  .Avatar {
+  .SideMenu-avatar {
     position: absolute;
     bottom: 18px;
     right: 18px;
+    .Dropdown {
+      color: black !important;
+    }
   }
 }
 
@@ -125,6 +132,9 @@ button {
 
   &.btn-secondary {
     @include setButtonColor(#bdbdbd);
+  }
+  &.btn-success {
+    @include setButtonColor(#32d296);
   }
 }
 

@@ -15,31 +15,87 @@ type User {
   lastName: String
   email: String
   contacts(skip:Int, first:Int): [Contact]
+  accounts:[UserAccount]
+}
+
+type UserAccount {
+  _id: ID
+  serviceName:String
+  accountName:String
+  url:String
+  apiToken:String
+  syncStatus: String
+}
+
+type Social {
+  _id: ID
+  linkedin:String
+  twitter:String
+  facebook:String
+  instagram:String
+  skype:String
+  webpage:String
 }
 
 type Contact {
   _id: ID
-  userId: ID
+  userId: ID!
   createdAt:String
   updatedOn:String
   user: User
   firstName: String
   lastName: String
-  email: String
   title: String
+  homeEmail: String
+  workEmail: String
   organization:String
   workAddress:String
   homeAddress:String
   workPhone:String
   homePhone:String
   imageUrl:String
+  note:String
+  birthday:String
+  social:Social
 }
 
 type Mutation {
   createUser(firstName: String, lastName: String, email: String): User
-  createContact(userId: ID, firstName: String, lastName: String, email: String,
-    title: String, organization:String, workAddress:String, homeAddress:String,
-    workPhone:String, homePhone:String, imageUrl:String): Contact
+  updateUser(_id: ID!, 
+    firstName: String, 
+    lastName: String,
+    email: String,
+  ): User
+  addUserAccount(userId:ID!,
+    serviceName:String,
+    accountName:String,
+    url:String,
+    apiToken:String,
+    syncStatus: String): UserAccount
+  deleteUserAccount(_id:ID!, userId:ID!): Int
+  updateUserAccount(_id:ID!,
+    userId:ID!,
+    serviceName:String,
+    accountName:String,
+    url:String,
+    apiToken:String,
+    syncStatus: String): UserAccount
+  createContact(userId: ID!, firstName: String, lastName: String, homeEmail: String,
+    workEmail: String, title: String, organization:String, workAddress:String, homeAddress:String,
+    workPhone:String, homePhone:String, imageUrl:String, birthday:String, note:String): Contact
+  updateContact(_id: ID!, firstName: String, lastName: String, homeEmail: String,
+    workEmail: String, title: String, organization:String, workAddress:String, 
+    homeAddress:String, workPhone:String, homePhone:String, imageUrl:String, birthday:String, note:String): Contact
+  addSocial(contactId:ID!,
+    linkedin:String,
+    twitter:String,
+    facebook:String,
+    instagram:String,
+    skype:String,
+    webpage:String): Social
+  deleteContact(_id:ID!): Int
+  deleteAllContacts(confirm:Boolean): Int
+  clearDatabase(confirm:Boolean): Int
 }
 
 schema {

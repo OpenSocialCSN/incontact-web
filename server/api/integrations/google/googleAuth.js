@@ -1,5 +1,4 @@
 import { google } from "googleapis";
-import url from "url";
 
 const config = {
   client_id:
@@ -41,11 +40,16 @@ class GoogleAuth {
     );
   }
 
-  getAuthUrl() {
-    const scopes = ["https://www.googleapis.com/auth/contacts.readonly"];
+  getAuthUrl(urlState) {
+    const scopes = [
+      "https://www.googleapis.com/auth/contacts.readonly",
+      "https://www.googleapis.com/auth/userinfo.email",
+      "https://www.googleapis.com/auth/plus.login"
+    ];
     return this.oAuth2Client.generateAuthUrl({
       access_type: "offline",
-      scope: scopes.join(" ")
+      scope: scopes.join(" "),
+      state: JSON.stringify(urlState)
     });
   }
 

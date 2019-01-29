@@ -10,7 +10,7 @@ export default function ContactListItem({ contact, selectContact, isActive }) {
   return (
     <div
       className={`ContactListItem card${isActive ? " active" : ""}`}
-      onClick={() => selectContact(contact)}
+      onClick={() => selectContact(contact._id)}
     >
       <span className="ContactListItem-iconAndName">
         <Avatar user={contact} size={51} />
@@ -21,15 +21,17 @@ export default function ContactListItem({ contact, selectContact, isActive }) {
   );
 }
 
-const ContactIcons = function({ contact }) {
+const ContactIcons = ({ contact }) => {
   const hasEmail = contact.workEmail || contact.homeEmail;
   const hasPhone = contact.workPhone || contact.homePhone;
   let iconCount = (hasEmail ? 1 : 0) + (hasPhone ? 1 : 0);
-  const socialKeys = Object.keys(contact.social);
+  const socialKeys = contact.social ? Object.keys(contact.social) : [];
   const socialIconJsx = [];
   for (let i = 0; i < socialKeys.length && iconCount < 4; i++) {
-    iconCount++;
-    socialIconJsx.push(<Icon key={i} src={socialImages[socialKeys[i]]} />);
+    if (contact.social[socialKeys[i]]) {
+      iconCount++;
+      socialIconJsx.push(<Icon key={i} src={socialImages[socialKeys[i]]} />);
+    }
   }
   return (
     <span className="ContactListItem-icons">
