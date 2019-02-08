@@ -10,6 +10,7 @@ export default class ContactsDataSource {
     this.store = db.collection("contacts");
     Social = db.collection("social");
   }
+
   //QUERIES
   getContact = async (root, { _id }) => {
     return prepare(await this.store.findOne(ObjectId(_id)));

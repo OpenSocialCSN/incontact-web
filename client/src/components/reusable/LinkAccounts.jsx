@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { MdCheck } from "react-icons/md";
 
 import "./styles/LinkAccounts.scss";
@@ -9,6 +9,7 @@ import {
   addUserIntegration,
   deleteUserIntegrationAccount
 } from "../../api/usersApi";
+import LinkEmail from "./LinkEmail";
 
 export default function LinkAccounts({
   user = {},
@@ -19,8 +20,11 @@ export default function LinkAccounts({
   if (!user) return <span />;
   const { integrations, _id: userId } = user;
   const integrationCounts = getIntegrationCounts(integrations, userId);
+  const [screen, setScreen] = useState("main");
+  const onBack = () => setScreen("main");
+  const subscreenProps = { onBack };
 
-  return (
+  return screen === "main" ? (
     <span className="LinkAccounts">
       <h2>{title || `Sync Accounts`}</h2>
 
@@ -59,13 +63,19 @@ export default function LinkAccounts({
           icon={emailIcon}
           title="Other Email"
           count={integrationCounts.email}
-          onClick={() => alert("TODO")}
+          onClick={() => setScreen("LinkEmail")}
         />
       </div>
       {!hideDone && <button onClick={onClose}>Done</button>}
     </span>
+  ) : (
+    SUB_SCREENS[screen](subscreenProps)
   );
 }
+
+const SUB_SCREENS = {
+  LinkEmail: props => <LinkEmail {...props} />
+};
 
 const OnboardSyncItem = ({ icon, title, count = 0, onClick }) => (
   <div className="OnboardSyncItem" onClick={onClick}>
