@@ -28,8 +28,10 @@ export const generateArgs = updateObject => {
   keys.forEach((key, i) => {
     let value = updateObject[key];
     value = value === "" ? null : value;
-    if (typeof value === "string") {
-      value = `"${value}"`;
+
+    if (typeof value === "string" && key !== "syncStatus") {
+      // syncStatus is an enum, do not wrap in quotes
+      value = `${value}` // triple quotes allows line breaks
     }
     args += `${key}:${value}${i < keys.length - 1 ? `, ` : ``}`;
   });

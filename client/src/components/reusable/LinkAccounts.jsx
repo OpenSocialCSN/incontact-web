@@ -91,14 +91,14 @@ const CLICK_HANDLERS = {
   google: async userId => {
     console.log("userId:", userId);
 
-    const { addUserIntegration: account } = await addUserIntegration({
+    const { addUserIntegration: integration } = await addUserIntegration({
       userId,
       serviceName: "google"
     });
 
     window.open(
       `${BASE_URI}integrations/google/authUrl?userId=${userId}&userIntegrationId=${
-        account._id
+        integration._id
       }&forwardingRoute=Onboarding`,
       "_self"
     );
