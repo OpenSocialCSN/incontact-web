@@ -4,7 +4,7 @@
   "private": true,
   "proxy": "http://localhost:5000/",
   "dependencies": {
-    "node-sass": "^4.11.0",
+    "node-sass": "^7.0.0",
     "react": "16.7.0-alpha.2",
     "react-dom": "16.7.0-alpha.2",
     "react-icons": "^3.2.2",
